@@ -1,19 +1,20 @@
 import React from "react";
-import Navbar from "./components/Navbar";
-import HeroSection from "./components/HeroSection";
-import Footer from "./components/Footer";
-import CoursesSection from "./components/Courses";
-import TeachersSection from "./components/Teachers";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HomePage from "./pages/Homepage";
+import ContactPage from "./pages/Contactus";
+import AboutPage from "./pages/About";
 
-export default function App() {
+function App() {
   return (
-    <>
-      <Navbar />
-      <HeroSection />
-       <TeachersSection />
-      <CoursesSection />
-      <Footer />
-   
-          </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/About" element={<AboutPage />} />
+
+      </Routes>
+    </Router>
   );
 }
+
+export default App;

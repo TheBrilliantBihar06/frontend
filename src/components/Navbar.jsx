@@ -11,11 +11,10 @@ const Navbar = () => {
 
   const navItems = [
     { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
     { label: "Courses", href: "/courses" },
-    { label: "Tutorials", href: "/tutorials" },
-    { label: "Blog", href: "/blog" },
-    { label: "Notes", href: "/notes" },
-    { label: "Contact", href: "/contact" },
+    { label: "Scholarship", href: "/scholarship" },
+    { label: "Contact Us", href: "/contact" },
   ];
 
   return (
@@ -30,14 +29,14 @@ const Navbar = () => {
             </span>
           </a>
 
-          {/* Center: Nav Links (desktop & tablet) */}
+          {/* Center: Nav Links */}
           <div className="hidden md:flex flex-1 justify-center">
-            <div className="flex flex-wrap gap-3 lg:gap-6">
+            <div className="flex flex-1 justify-around max-w-lg lg:max-w-xl">
               {navItems.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors"
+                  className="text-gray-300 hover:text-orange-500 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors duration-200"
                 >
                   {item.label}
                 </a>
@@ -45,9 +44,8 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Right: Search + Auth (desktop & tablet) */}
+          {/* Right: Search + Auth */}
           <div className="hidden md:flex items-center space-x-2 lg:space-x-4">
-            {/* Search */}
             <div className="relative w-32 sm:w-40 md:w-48 lg:w-56">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Search className="h-4 w-4 lg:h-5 lg:w-5 text-gray-400" />
@@ -61,7 +59,6 @@ const Navbar = () => {
               />
             </div>
 
-            {/* Auth Buttons */}
             <div className="flex items-center space-x-2 lg:space-x-3">
               <button className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
                 Login
@@ -95,7 +92,7 @@ const Navbar = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className="block text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium"
+                className="block text-gray-300 hover:text-orange-500 hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
               >
                 {item.label}
               </a>

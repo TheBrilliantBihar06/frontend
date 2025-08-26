@@ -19,8 +19,8 @@ export default function CoursesSection() {
             </div>
 
             {/* Discount Badge */}
-            <div className="absolute bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-br-lg">
-              36% OFF
+            <div className="absolute  text-white text-xs font-bold px-3 py-1 rounded-br-lg">
+              
             </div>
 
             {/* Content */}
@@ -35,18 +35,18 @@ export default function CoursesSection() {
 
               {/* Info */}
               <div className="flex items-center space-x-4 text-sm text-gray-400 mt-4">
-                <span>👨‍💻 CodeWithHarry</span>
-                <span>🔰 Beginner</span>
+                <span></span>
+                <span></span>
               </div>
               <div className="flex items-center space-x-4 text-sm text-gray-400 mt-2">
-                <span>⏱️ 27h 53m</span>
-                <span>📚 174 lessons</span>
+                <span></span>
+                <span></span>
               </div>
 
               {/* Price */}
               <div className="mt-4 text-xl font-bold">
-                ₹2899{" "}
-                <span className="text-gray-500 line-through text-sm">₹4499</span>
+                {" "}
+                <span className="text-gray-500 line-through text-sm"></span>
               </div>
             </div>
           </div>
@@ -59,8 +59,8 @@ export default function CoursesSection() {
             </div>
 
             {/* Discount Badge */}
-            <div className="absolute bg-red-600 text-white text-xs font-bold px-3 py-1 rounded-br-lg">
-              51% OFF
+            <div className="absolute  text-white text-xs font-bold px-3 py-1 rounded-br-lg">
+              
             </div>
 
             {/* Content */}
@@ -76,18 +76,18 @@ export default function CoursesSection() {
 
               {/* Info */}
               <div className="flex items-center space-x-4 text-sm text-gray-400 mt-4">
-                <span>👨‍💻 CodeWithHarry</span>
-                <span>🔰 Beginner</span>
+                <span></span>
+                <span></span>
               </div>
               <div className="flex items-center space-x-4 text-sm text-gray-400 mt-2">
-                <span>⏱️ 12h 24m</span>
-                <span>📚 82 lessons</span>
+                <span></span>
+                <span></span>
               </div>
 
               {/* Price */}
               <div className="mt-4 text-xl font-bold">
-                ₹988{" "}
-                <span className="text-gray-500 line-through text-sm">₹2000</span>
+                {" "}
+                <span className="text-gray-500 line-through text-sm"></span>
               </div>
             </div>
           </div>
