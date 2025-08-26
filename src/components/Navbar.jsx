@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Search, Menu, X, User } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -13,7 +14,7 @@ const Navbar = () => {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Courses", href: "/courses" },
-    { label: "Scholarship", href: "/scholarship" },
+    { label: "Events", href: "/events" }, // ✅ Updated here
     { label: "Contact Us", href: "/contact" },
   ];
 
@@ -21,25 +22,24 @@ const Navbar = () => {
     <nav className="bg-gray-900 text-white sticky top-0 z-50 shadow-md">
       <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-12 xl:px-20">
         <div className="flex items-center justify-between h-16">
-          
           {/* Left: Logo */}
-          <a href="/" className="flex items-center flex-shrink-0">
+          <Link to="/" className="flex items-center flex-shrink-0">
             <span className="text-xl sm:text-2xl lg:text-3xl font-bold">
               <span className="text-red-500">&lt;/</span>BrilliantBihar
             </span>
-          </a>
+          </Link>
 
           {/* Center: Nav Links */}
           <div className="hidden md:flex flex-1 justify-center">
             <div className="flex flex-1 justify-around max-w-lg lg:max-w-xl">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  to={item.href}
                   className="text-gray-300 hover:text-orange-500 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors duration-200"
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
             </div>
           </div>
@@ -59,13 +59,20 @@ const Navbar = () => {
               />
             </div>
 
+            {/* Auth Buttons */}
             <div className="flex items-center space-x-2 lg:space-x-3">
-              <button className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+              <Link
+                to="/login"
+                className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors"
+              >
                 Login
-              </button>
-              <button className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm lg:text-base font-medium transition-colors">
+              </Link>
+              <Link
+                to="/signup"
+                className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm lg:text-base font-medium transition-colors"
+              >
                 Signup
-              </button>
+              </Link>
               <div className="w-8 h-8 lg:w-10 lg:h-10 bg-gray-700 rounded-full flex items-center justify-center">
                 <User className="h-4 w-4 lg:h-5 lg:w-5 text-gray-300" />
               </div>
@@ -89,13 +96,13 @@ const Navbar = () => {
         <div className="md:hidden bg-gray-800">
           <div className="px-2 pt-2 pb-3 space-y-1">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.href}
                 className="block text-gray-300 hover:text-orange-500 hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
 
             {/* Mobile Search */}
@@ -116,12 +123,18 @@ const Navbar = () => {
 
             {/* Mobile Auth Buttons */}
             <div className="pt-2 pb-3 space-y-2">
-              <button className="w-full text-left text-gray-300 hover:text-white hover:bg-gray-700 block px-3 py-2 rounded-md text-base font-medium">
+              <Link
+                to="/login"
+                className="w-full block text-left text-gray-300 hover:text-white hover:bg-gray-700 px-3 py-2 rounded-md text-base font-medium"
+              >
                 Login
-              </button>
-              <button className="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-base font-medium">
+              </Link>
+              <Link
+                to="/signup"
+                className="w-full bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-base font-medium block text-center"
+              >
                 Signup
-              </button>
+              </Link>
             </div>
           </div>
         </div>
