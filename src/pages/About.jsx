@@ -1,37 +1,40 @@
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 const AboutPage = () => {
   const [activeTab, setActiveTab] = useState('mission');
+  const navigate = useNavigate();
 
   const teachers = [
     {
       name: "Dr. Rajesh Kumar",
-      subject: "Mathematics & Physics",
+      subject: "Indian Polity & Governance",
       experience: "12 Years",
-      qualification: "Ph.D. in Mathematics, IIT Patna",
+      qualification: "Ph.D. in Political Science, JNU Delhi",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
     },
     {
       name: "Prof. Sunita Devi",
-      subject: "Chemistry & Biology",
+      subject: "History & Culture",
       experience: "15 Years",
-      qualification: "M.Sc. Chemistry, Patna University",
+      qualification: "M.A. History, Patna University",
       image: "https://images.unsplash.com/photo-1494790108755-2616c179b5bb?w=400&h=400&fit=crop&crop=face"
     },
     {
       name: "Mr. Amit Singh",
-      subject: "English & Hindi Literature",
+      subject: "Economy & Current Affairs",
       experience: "8 Years",
-      qualification: "M.A. English Literature, BHU",
+      qualification: "M.A. Economics, BHU",
       image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face"
     },
     {
       name: "Dr. Priya Sharma",
-      subject: "Computer Science",
+      subject: "Geography & Environment",
       experience: "10 Years",
-      qualification: "Ph.D. Computer Science, NIT Patna",
+      qualification: "Ph.D. Geography, IIT Kanpur",
       image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=400&fit=crop&crop=face"
     }
   ];
@@ -40,338 +43,616 @@ const AboutPage = () => {
     {
       icon: "🎓",
       title: "Live Interactive Classes",
-      description: "Real-time online classes with experienced teachers from Bihar and across India"
+      description: "Real-time online classes with expert faculty for UPSC & BPSC preparation"
     },
     {
       icon: "📚",
       title: "Comprehensive Study Material",
-      description: "Bihar board aligned curriculum with additional competitive exam preparation"
+      description: "Curated notes, mocks, and resources aligned with UPSC & BPSC syllabus"
     },
     {
       icon: "💬",
-      title: "Doubt Resolution",
-      description: "24/7 doubt clearing sessions with dedicated mentors"
+      title: "1-Hour Doubt Resolution",
+      description: "Quick video-supported doubt clearing sessions within 1 hour"
+    },
+    {
+      icon: "🤖",
+      title: "24/7 AI Chatbot Helpdesk",
+      description: "Instant support and query resolution anytime with our smart AI assistant"
     },
     {
       icon: "📊",
       title: "Progress Tracking",
-      description: "Regular assessments and detailed performance analytics"
+      description: "Regular mocks, analytics, and personalized feedback for exam success"
     },
     {
       icon: "🏆",
-      title: "Bihar Culture Integration",
-      description: "Learning modules that celebrate and integrate Bihar's rich cultural heritage"
-    },
-    {
-      icon: "🌐",
-      title: "Rural Connectivity",
-      description: "Special programs designed for students in remote areas of Bihar"
+      title: "Bihar-Focused Integration",
+      description: "Special modules on Bihar-specific topics for BPSC aspirants"
     }
   ];
 
   const stats = [
-    { number: "10,000+", label: "Active Students" },
-    { number: "500+", label: "Expert Teachers" },
-    { number: "38", label: "Districts Covered" },
-    { number: "95%", label: "Success Rate" }
+    { number: "10,000+", label: "Active Aspirants", color: "from-emerald-400 to-cyan-400" },
+    { number: "500+", label: "Expert Mentors", color: "from-violet-400 to-purple-400" },
+    { number: "38", label: "Districts Covered", color: "from-orange-400 to-red-400" },
+    { number: "95%", label: "Success Rate", color: "from-blue-400 to-indigo-400" }
   ];
 
+  const containerVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, staggerChildren: 0.2 }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+  };
+
   return (
-    <div className="min-h-screen" style={{ backgroundColor: '#111827' }}>
-      {/* Navbar */}
+    <div className="bg-gray-900 text-white">
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative py-16 sm:py-24 text-white">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-purple-900/80"></div>
-        <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-              About <span className="text-blue-400">Brilliant Bihar</span>
-            </h1>
-            <p className="text-xl sm:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              Empowering Bihar's youth through quality online education and celebrating our rich cultural heritage
-            </p>
+      <section className="relative min-h-screen flex items-center overflow-hidden">
+        <motion.div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')` }}
+          initial={{ scale: 1.2 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 10, ease: "easeOut" }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900/70 via-gray-800/70 to-gray-900/70"></div>
+        </motion.div>
+
+        <motion.div
+          className="relative z-10 container mx-auto px-6 max-w-7xl"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <motion.div className="flex items-center space-x-4 relative overflow-hidden" variants={itemVariants}>
+                <motion.div
+                  className="w-4 h-4 rounded-full bg-emerald-400"
+                  animate={{ opacity: [1, 0.5, 1] }} // Removed scale to prevent floating
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                />
+                <motion.div
+                  className="w-4 h-4 rounded-full bg-blue-400"
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.5, delay: 0.3 }}
+                />
+                <motion.div
+                  className="w-4 h-4 rounded-full bg-purple-400"
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.5, delay: 0.6 }}
+                />
+              </motion.div>
+              <motion.h1
+                className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-none"
+                variants={itemVariants}
+              >
+                <span className="block text-white">Ace</span>
+                <span className="block bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+                  UPSC & BPSC
+                </span>
+                <span className="block text-white">with Brilliant Bihar</span>
+              </motion.h1>
+              <motion.p
+                className="text-lg text-gray-100 max-w-lg leading-relaxed"
+                variants={itemVariants}
+              >
+                Premier platform offering top-tier courses for UPSC and BPSC aspirants, blending expert guidance with AI-driven support.
+              </motion.p>
+              <motion.div className="flex flex-wrap gap-4" variants={itemVariants}>
+                <motion.button
+                  onClick={() => navigate('/courses')}
+                  className="bg-gradient-to-r from-emerald-500 to-cyan-500 px-8 py-4 rounded-full font-bold text-white shadow-lg"
+                  whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0, 255, 255, 0.3)" }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={{ scale: [1, 1.02, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.5 }}
+                >
+                  Explore Courses
+                </motion.button>
+                <motion.button
+                  className="border-2 border-gray-600 px-8 py-4 rounded-full font-bold text-gray-200"
+                  whileHover={{ scale: 1.05, borderColor: "#A78BFA", color: "#A78BFA" }}
+                  whileTap={{ scale: 0.95 }}
+                  animate={{ scale: [1, 1.02, 1] }}
+                  transition={{ repeat: Infinity, duration: 1.5, delay: 0.5 }}
+                >
+                  Meet Our Faculty
+                </motion.button>
+              </motion.div>
+            </div>
+            <motion.div className="relative" variants={itemVariants}>
+              <div className="relative w-full h-96 rounded-3xl overflow-hidden">
+                <motion.img
+                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+                  alt="Aspirants preparing for exams"
+                  className="w-full h-full object-cover"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/40 to-purple-500/40 flex items-center justify-center">
+                  <motion.span
+                    className="text-white text-2xl sm:text-3xl font-bold bg-black/80 px-8 py-4 rounded-lg"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)" }}
+                  >
+                    Crack UPSC/BPSC with Us
+                  </motion.span>
+                </div>
+              </div>
+              <motion.div
+                className="absolute -top-8 -left-8 bg-white text-gray-900 p-4 rounded-2xl shadow-xl"
+                whileHover={{ scale: 1.1 }} // Removed rotate to keep stable
+              >
+                <div className="text-2xl font-bold text-emerald-500">10K+</div>
+                <div className="text-sm">Aspirants</div>
+              </motion.div>
+              <motion.div
+                className="absolute -bottom-8 -right-8 bg-gradient-to-r from-purple-500 to-blue-500 text-white p-4 rounded-2xl shadow-xl"
+                whileHover={{ scale: 1.1 }} // Removed rotate
+              >
+                <div className="text-2xl font-bold">500+</div>
+                <div className="text-sm">Mentors</div>
+              </motion.div>
+            </motion.div>
           </div>
-        </div>
+        </motion.div>
       </section>
 
       {/* Stats Section */}
-      <section className="py-12 sm:py-16" style={{ backgroundColor: '#1F2937' }}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+      <motion.section
+        className="py-16 bg-gradient-to-b from-gray-800 to-gray-900"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={containerVariants}
+      >
+        <div className="container mx-auto px-6">
+          <motion.div className="text-center mb-12" variants={itemVariants}>
+            <h2 className="text-4xl font-bold mb-4">Our Impact in Numbers</h2>
+            <div className="w-20 h-1 bg-gradient-to-r from-emerald-400 to-purple-400 mx-auto rounded-full"></div>
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center">
-                <div className="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-400 mb-2">
-                  {stat.number}
+              <motion.div
+                key={index}
+                className="relative group"
+                variants={itemVariants}
+                whileHover={{ scale: 1.05, boxShadow: "0 0 15px rgba(255, 255, 255, 0.2)" }}
+              >
+                <div
+                  className="absolute inset-0 bg-gradient-to-r rounded-2xl blur-xl opacity-20 group-hover:opacity-40 transition-opacity duration-300"
+                  style={{ background: `linear-gradient(135deg, ${stat.color})` }}
+                />
+                <div className="relative bg-gray-800/80 backdrop-blur border border-gray-700 rounded-2xl p-8 text-center hover:border-gray-600 transition-all duration-300">
+                  <div className={`text-4xl font-black mb-2 bg-gradient-to-r ${stat.color} bg-clip-text text-transparent`}>
+                    {stat.number}
+                  </div>
+                  <div className="text-gray-100 font-medium">{stat.label}</div>
                 </div>
-                <div className="text-gray-300 text-sm sm:text-base">{stat.label}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Company Details Tabs */}
-      <section className="py-16 sm:py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Our Story & Mission
+      {/* Story Section */}
+      <motion.section
+        className="py-20 relative"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={containerVariants}
+      >
+        <div className="container mx-auto px-6 max-w-5xl">
+          <motion.div className="text-center mb-16" variants={itemVariants}>
+            <h2 className="text-5xl font-bold mb-6">
+              Our <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">Journey</span>
             </h2>
-          </div>
-          
-          <div className="max-w-4xl mx-auto">
-            {/* Tab Navigation */}
-            <div className="flex flex-wrap justify-center mb-8 border-b" style={{ borderColor: '#374151' }}>
-              {[
-                { id: 'mission', label: 'Our Mission' },
-                { id: 'vision', label: 'Our Vision' },
-                { id: 'story', label: 'Our Story' },
-                { id: 'values', label: 'Our Values' }
-              ].map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`px-6 py-3 text-sm sm:text-base font-medium transition-colors duration-200 ${
-                    activeTab === tab.id
-                      ? 'text-blue-400 border-b-2 border-blue-400'
-                      : 'text-gray-400 hover:text-gray-300'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
+            <p className="text-xl text-gray-100">Discover how we empower UPSC & BPSC aspirants</p>
+          </motion.div>
 
-            {/* Tab Content */}
-            <div className="text-gray-300 leading-relaxed">
-              {activeTab === 'mission' && (
-                <div className="space-y-4">
-                  <p className="text-lg">
-                    Our mission is to democratize quality education across Bihar by leveraging technology 
-                    and celebrating our rich cultural heritage. We aim to bridge the educational gap between 
-                    urban and rural areas, ensuring every student in Bihar has access to world-class learning resources.
-                  </p>
-                  <p>
-                    We are committed to nurturing the intellectual potential of Bihar's youth while preserving 
-                    and promoting our state's incredible history, from the ancient Nalanda University to modern innovations.
-                  </p>
-                </div>
-              )}
-              
-              {activeTab === 'vision' && (
-                <div className="space-y-4">
-                  <p className="text-lg">
-                    To establish Bihar as a leading educational hub in India, where students from every district 
-                    can access premium education and achieve their dreams without leaving their homeland.
-                  </p>
-                  <p>
-                    We envision a digitally empowered Bihar where traditional wisdom meets modern pedagogy, 
-                    creating globally competitive yet culturally rooted individuals.
-                  </p>
-                </div>
-              )}
-              
-              {activeTab === 'story' && (
-                <div className="space-y-4">
-                  <p className="text-lg">
-                    Brilliant Bihar was founded in 2023 by a team of educators and technologists who witnessed 
-                    the immense potential of Bihar's students but recognized the challenges they faced in accessing 
-                    quality education.
-                  </p>
-                  <p>
-                    Starting from a small office in Patna, we began with just 50 students. Today, we serve over 
-                    10,000 students across all 38 districts of Bihar, with plans to expand across eastern India.
-                  </p>
-                  <p>
-                    Our journey has been supported by former students of Bihar who have excelled globally and 
-                    want to give back to their home state.
-                  </p>
-                </div>
-              )}
-              
-              {activeTab === 'values' && (
-                <div className="space-y-4">
-                  <p className="text-lg font-medium text-blue-400 mb-4">Core Values:</p>
-                  <ul className="space-y-3">
-                    <li><strong>Excellence:</strong> Maintaining highest standards in education delivery</li>
-                    <li><strong>Accessibility:</strong> Making quality education available to all economic backgrounds</li>
-                    <li><strong>Cultural Pride:</strong> Celebrating Bihar's rich heritage and history</li>
-                    <li><strong>Innovation:</strong> Embracing technology to enhance learning experiences</li>
-                    <li><strong>Community:</strong> Building a supportive learning ecosystem</li>
-                  </ul>
-                </div>
-              )}
-            </div>
+          <div className="relative">
+            <div className="absolute left-6 top-0 bottom-0 w-1 bg-gradient-to-b from-emerald-400 to-purple-400 rounded-full"></div>
+            {[
+              { id: 'mission', title: 'Our Mission', icon: '🎯', color: 'emerald' },
+              { id: 'vision', title: 'Our Vision', icon: '🔮', color: 'blue' },
+              { id: 'story', title: 'Our Story', icon: '📖', color: 'purple' },
+              { id: 'values', title: 'Our Values', icon: '💎', color: 'pink' }
+            ].map((tab) => (
+              <motion.div
+                key={tab.id}
+                className="relative flex items-start space-x-6 mb-12"
+                variants={itemVariants}
+              >
+                <motion.button
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`relative z-10 w-12 h-12 rounded-full border-2 flex items-center justify-center text-xl font-bold transition-all duration-300 ${
+                    activeTab === tab.id
+                      ? `bg-${tab.color}-500 border-${tab.color}-400 text-white shadow-lg shadow-${tab.color}-500/30`
+                      : 'bg-gray-800 border-gray-600 text-gray-400 hover:border-gray-500'
+                  }`}
+                  whileHover={{ scale: 1.1 }} // Removed rotate
+                  whileTap={{ scale: 0.9 }}
+                >
+                  {tab.icon}
+                </motion.button>
+                <AnimatePresence>
+                  {activeTab === tab.id && (
+                    <motion.div
+                      className="flex-1"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.5 }}
+                    >
+                      <h3 className="text-2xl font-bold mb-4">{tab.title}</h3>
+                      <motion.div
+                        className="bg-gray-800/50 backdrop-blur border border-gray-700 rounded-2xl p-6 space-y-4"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        {tab.id === 'mission' && (
+                          <>
+                            <p className="text-lg text-gray-100 leading-relaxed">
+                              To provide best-in-class UPSC and BPSC courses with AI-driven support, video-based doubt resolution, and expert faculty tailored to Bihar's aspirants.
+                            </p>
+                            <p className="text-gray-300 leading-relaxed">
+                              Committed to empowering every student with tools for civil services success.
+                            </p>
+                          </>
+                        )}
+                        {tab.id === 'vision' && (
+                          <>
+                            <p className="text-lg text-gray-100 leading-relaxed">
+                              To transform Bihar into a hub for UPSC and BPSC toppers through accessible, innovative education.
+                            </p>
+                            <p className="text-gray-300 leading-relaxed">
+                              A future where every aspirant benefits from 24/7 AI support and personalized prep.
+                            </p>
+                          </>
+                        )}
+                        {tab.id === 'story' && (
+                          <>
+                            <p className="text-lg text-gray-100 leading-relaxed">
+                              Founded in 2023 by civil services experts to address preparation challenges in Bihar.
+                            </p>
+                            <p className="text-gray-300 leading-relaxed">
+                              From 50 students to 10,000+ aspirants, offering specialized UPSC/BPSC courses with AI integration.
+                            </p>
+                            <p className="text-gray-300 leading-relaxed">
+                              Supported by alumni who excelled in civil services and are giving back.
+                            </p>
+                          </>
+                        )}
+                        {tab.id === 'values' && (
+                          <div className="grid sm:grid-cols-2 gap-4">
+                            {[
+                              { title: 'Excellence', desc: 'Top-quality UPSC/BPSC content delivery', color: 'emerald' },
+                              { title: 'Accessibility', desc: 'Affordable courses for all backgrounds', color: 'blue' },
+                              { title: 'Innovation', desc: 'AI chatbot & video doubts for modern learning', color: 'purple' },
+                              { title: 'Dedication', desc: 'Focused on Bihar\'s civil services success', color: 'pink' }
+                            ].map((value, idx) => (
+                              <motion.div
+                                key={idx}
+                                className="bg-gray-900/50 border border-gray-600 rounded-xl p-4"
+                                whileHover={{ scale: 1.03, boxShadow: "0 0 10px rgba(255, 255, 255, 0.1)" }}
+                                transition={{ duration: 0.3 }}
+                              >
+                                <div className={`font-bold text-${value.color}-400 mb-2`}>{value.title}</div>
+                                <div className="text-sm text-gray-300">{value.desc}</div>
+                              </motion.div>
+                            ))}
+                          </div>
+                        )}
+                      </motion.div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Features Section */}
-      <section className="py-16 sm:py-20" style={{ backgroundColor: '#1F2937' }}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Why Choose Brilliant Bihar?
+      <motion.section
+        className="py-20 bg-gray-800"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={containerVariants}
+      >
+        <div className="container mx-auto px-6">
+          <motion.div className="text-center mb-16" variants={itemVariants}>
+            <h2 className="text-5xl font-bold mb-4">
+              Why Aspirants <span className="bg-gradient-to-r from-emerald-400 to-purple-400 bg-clip-text text-transparent">Choose Us</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              We combine modern online learning with Bihar's educational excellence tradition
-            </p>
-          </div>
-          
+            <p className="text-xl text-gray-100">Best-in-class features for UPSC & BPSC success</p>
+          </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((feature, index) => (
-              <div key={index} className="p-6 rounded-lg" style={{ backgroundColor: '#111827' }}>
-                <div className="text-4xl mb-4">{feature.icon}</div>
-                <h3 className="text-xl font-bold text-white mb-3">{feature.title}</h3>
-                <p className="text-gray-300">{feature.description}</p>
-              </div>
+              <motion.div
+                key={index}
+                className="relative group bg-gray-900 border border-gray-700 rounded-3xl p-8"
+                variants={itemVariants}
+                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0, 255, 255, 0.2)" }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-purple-500/10 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative">
+                  <motion.div
+                    className="text-5xl mb-6 inline-block" // Added inline-block to contain icon
+                    whileHover={{ scale: 1.1 }} // Reduced scale, removed rotate
+                    transition={{ duration: 0.3 }}
+                  >
+                    {feature.icon}
+                  </motion.div>
+                  <h3 className="text-2xl font-bold mb-4 text-white">{feature.title}</h3>
+                  <p className="text-gray-100 leading-relaxed">{feature.description}</p>
+                </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Online Classes Section */}
-      <section className="py-16 sm:py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+      {/* Online Learning Section */}
+      <motion.section
+        className="py DIP-20"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={containerVariants}
+      >
+        <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-                Interactive Online Classes
+            <motion.div className="space-y-8" variants={itemVariants}>
+              <h2 className="text-5xl font-bold mb-6 leading-tight">
+                Advanced <br />
+                <span className="bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent">
+                  UPSC/BPSC Prep
+                </span>
               </h2>
-              <div className="space-y-4 text-gray-300">
-                <p className="text-lg">
-                  Experience live, interactive online classes designed specifically for Bihar board curriculum 
-                  and competitive exam preparation.
-                </p>
-                <div className="space-y-3">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-green-400">✓</span>
-                    <span>HD quality video streaming with crystal clear audio</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-green-400">✓</span>
-                    <span>Interactive whiteboards and real-time doubt solving</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-green-400">✓</span>
-                    <span>Recorded sessions available for revision</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-green-400">✓</span>
-                    <span>Small batch sizes for personalized attention</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-green-400">✓</span>
-                    <span>Classes available in Hindi and English</span>
-                  </div>
+              <p className="text-lg text-gray-100 leading-relaxed">
+                State-of-the-art platform with AI support for civil services excellence.
+              </p>
+              <div className="space-y-6">
+                {[
+                  { icon: '🎥', text: 'HD live classes with interactive polls' },
+                  { icon: '✏️', text: 'Real-time mocks and answer discussions' },
+                  { icon: '📹', text: 'Recorded lectures with timestamps' },
+                  { icon: '👥', text: 'Mentorship in small groups' },
+                  { icon: '🗣️', text: 'Bilingual content for better understanding' }
+                ].map((item, index) => (
+                  <motion.div
+                    key={index}
+                    className="flex items-start space-x-4 group relative" // Added relative
+                    variants={itemVariants}
+                  >
+                    <motion.div
+                      className="text-3xl group-hover:scale-105 transition-transform duration-300" // Reduced scale
+                    >
+                      {item.icon}
+                    </motion.div>
+                    <p className="text-gray-100 text-lg">{item.text}</p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+            <motion.div className="relative" variants={itemVariants}>
+              <div className="relative w-full h-96 rounded-3xl overflow-hidden">
+                <motion.img
+                  src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
+                  alt="Online UPSC/BPSC class"
+                  className="w-full h-full object-cover"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/50 to-blue-500/50 flex items-center justify-center">
+                  <motion.span
+                    className="text-white text-2xl sm:text-3xl font-bold bg-black/80 px-8 py-4 rounded-lg"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)" }}
+                  >
+                    Live UPSC Sessions
+                  </motion.span>
                 </div>
               </div>
-            </div>
-            <div className="order-first lg:order-last">
-              <div className="rounded-lg overflow-hidden shadow-2xl">
-                <img
-                  src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
-                  alt="Online Learning"
-                  className="w-full h-64 sm:h-80 object-cover"
-                />
-              </div>
-            </div>
+              <motion.div
+                className="absolute -top-6 -left-6 bg-white text-gray-900 p-4 rounded-2xl shadow-xl"
+                whileHover={{ scale: 1.1 }} // Removed rotate
+              >
+                <div className="flex items-center space-x-2">
+                  <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse" />
+                  <span className="text-sm font-medium">Live Now</span>
+                </div>
+              </motion.div>
+              <motion.div
+                className="absolute -bottom-6 -right-6 bg-gray-900 border border-gray-700 text-white p-4 rounded-2xl shadow-xl"
+                whileHover={{ scale: 1.1 }} // Removed rotate
+              >
+                <div className="text-sm text-gray-100 mb-1">Aspirants Online</div>
+                <div className="text-2xl font-bold text-emerald-400">1,247</div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       {/* Teachers Section */}
-      <section className="py-16 sm:py-20" style={{ backgroundColor: '#1F2937' }}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Meet Our Expert Teachers
+      <motion.section
+        className="py-20 bg-gray-800"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={containerVariants}
+      >
+        <div className="container mx-auto px-6">
+          <motion.div className="text-center mb-16" variants={itemVariants}>
+            <h2 className="text-5xl font-bold mb-4">
+              Expert <span className="bg-gradient-to-r from-emerald-400 to-purple-400 bg-clip-text text-transparent">Faculty</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Learn from Bihar's finest educators and experienced professionals from top institutions
-            </p>
-          </div>
-          
+            <p className="text-xl text-gray-100">Guiding UPSC & BPSC aspirants to success</p>
+          </motion.div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {teachers.map((teacher, index) => (
-              <div key={index} className="text-center p-6 rounded-lg" style={{ backgroundColor: '#111827' }}>
-                <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden">
-                  <img
-                    src={teacher.image}
-                    alt={teacher.name}
-                    className="w-full h-full object-cover"
-                  />
+              <motion.div
+                key={index}
+                className="group relative"
+                variants={itemVariants}
+                whileHover={{ y: -15, boxShadow: "0 10px 20px rgba(0, 0, 0, 0.3)" }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-3xl p-8 text-center hover:border-gray-600 transition-all duration-500">
+                  <div className="relative inline-block mb-6">
+                    <motion.img
+                      src={teacher.image}
+                      alt={teacher.name}
+                      className="w-24 h-24 object-cover rounded-2xl mx-auto"
+                      whileHover={{ scale: 1.1 }}
+                      transition={{ duration: 0.3 }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/20 to-purple-500/20 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-2">{teacher.name}</h3>
+                  <p className="text-emerald-400 font-medium mb-3">{teacher.subject}</p>
+                  <div className="space-y-2 text-sm">
+                    <div className="text-gray-100">{teacher.experience} Experience</div>
+                    <div className="text-gray-300">{teacher.qualification}</div>
+                  </div>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">{teacher.name}</h3>
-                <p className="text-blue-400 font-medium mb-2">{teacher.subject}</p>
-                <p className="text-sm text-gray-300 mb-1">{teacher.experience} Experience</p>
-                <p className="text-xs text-gray-400">{teacher.qualification}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Bihar Heritage Section */}
-      <section className="py-16 sm:py-20">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Celebrating Bihar's Rich Heritage
+      {/* Heritage Section */}
+      <motion.section
+        className="py-20 relative"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={containerVariants}
+      >
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
+        <div className="relative container mx-auto px-6">
+          <motion.div className="text-center mb-16" variants={itemVariants}>
+            <h2 className="text-5xl font-bold mb-4">
+              Bihar's <span className="bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">Legacy in Civil Services</span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              We integrate Bihar's glorious history and culture into our modern curriculum
-            </p>
-          </div>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="p-6 rounded-lg" style={{ backgroundColor: '#1F2937' }}>
-              <h3 className="text-xl font-bold text-white mb-3">🏛️ Ancient Learning Center</h3>
-              <p className="text-gray-300">
-                Bihar was home to Nalanda University, the world's first residential university, 
-                attracting scholars from across the globe over 1,500 years ago.
-              </p>
-            </div>
-            <div className="p-6 rounded-lg" style={{ backgroundColor: '#1F2937' }}>
-              <h3 className="text-xl font-bold text-white mb-3">📿 Spiritual Heritage</h3>
-              <p className="text-gray-300">
-                Birthplace of Buddhism and Jainism, Bihar continues to be a center for 
-                spiritual learning and philosophical discourse.
-              </p>
-            </div>
-            <div className="p-6 rounded-lg" style={{ backgroundColor: '#1F2937' }}>
-              <h3 className="text-xl font-bold text-white mb-3">🎨 Cultural Richness</h3>
-              <p className="text-gray-300">
-                From Madhubani paintings to classical literature, Bihar's artistic traditions 
-                inspire creativity in our educational approach.
-              </p>
-            </div>
+            <p className="text-xl text-gray-100">Drawing inspiration for modern exam prep</p>
+          </motion.div>
+          <div className="grid md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: "🏛️",
+                title: "Ancient Wisdom",
+                desc: "Nalanda's legacy inspires our rigorous UPSC/BPSC curriculum.",
+                gradient: "from-yellow-400 to-orange-400"
+              },
+              {
+                icon: "📿",
+                title: "Cultural Depth",
+                desc: "Bihar's history enriches our modules on Indian heritage.",
+                gradient: "from-purple-400 to-pink-400"
+              },
+              {
+                icon: "🎨",
+                title: "Innovative Spirit",
+                desc: "Blending tradition with AI for effective civil services training.",
+                gradient: "from-green-400 to-blue-400"
+              }
+            ].map((item, index) => (
+              <motion.div
+                key={index}
+                className="group relative"
+                variants={itemVariants}
+                whileHover={{ scale: 1.05 }}
+                transition={{ duration: 0.3 }}
+              >
+                <div className="absolute inset-0 bg-gradient-to-br opacity-10 rounded-3xl blur-xl transition-opacity duration-300 group-hover:opacity-20"
+                     style={{ background: `linear-gradient(135deg, ${item.gradient})` }} />
+                <div className="relative bg-gray-800/80 backdrop-blur border border-gray-700 rounded-3xl p-8 hover:border-gray-600 transition-all duration-300">
+                  <motion.div
+                    className="text-5xl mb-6 inline-block" // Added inline-block
+                    whileHover={{ scale: 1.1 }} // Reduced scale, removed rotate
+                    transition={{ duration: 0.3 }}
+                  >
+                    {item.icon}
+                  </motion.div>
+                  <h3 className={`text-2xl font-bold mb-4 bg-gradient-to-r ${item.gradient} bg-clip-text text-transparent`}>
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-100 leading-relaxed">{item.desc}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* Call to Action */}
-      <section className="py-16 sm:py-20" style={{ backgroundColor: '#1F2937' }}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-6">
-            Ready to Start Your Learning Journey?
-          </h2>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Join thousands of students who are building their future with Brilliant Bihar
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-8 rounded-lg transition-colors duration-200">
-              Start Free Trial
-            </button>
-            <button className="border border-gray-600 text-gray-300 hover:bg-gray-700 font-medium py-3 px-8 rounded-lg transition-colors duration-200">
-              Contact Us
-            </button>
-          </div>
+      {/* CTA Section */}
+      <motion.section
+        className="py-20 relative overflow-hidden"
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        variants={containerVariants}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 via-blue-600 to-purple-600" />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="relative container mx-auto px-6 text-center">
+          <motion.div className="max-w-4xl mx-auto space-y-8" variants={itemVariants}>
+            <h2 className="text-5xl sm:text-6xl font-black text-white leading-tight">
+              Start Your <br />
+              <span className="text-yellow-400">UPSC/BPSC Journey</span>
+            </h2>
+            <p className="text-xl text-gray-100 leading-relaxed">
+              Enroll in the best courses with 24/7 AI support and rapid doubt resolution.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+              <motion.button
+                onClick={() => navigate('/courses')}
+                className="bg-white text-gray-900 font-bold px-10 py-5 rounded-full text-xl shadow-2xl"
+                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 255, 255, 0.3)" }}
+                whileTap={{ scale: 0.95 }}
+                animate={{ scale: [1, 1.02, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5 }}
+              >
+                Enroll Now
+              </motion.button>
+              <motion.button
+                className="border-2 border-white text-white font-bold px-10 py-5 rounded-full text-xl"
+                whileHover={{ scale: 1.05, backgroundColor: "#fff", color: "#111827" }}
+                whileTap={{ scale: 0.95 }}
+                animate={{ scale: [1, 1.02, 1] }}
+                transition={{ repeat: Infinity, duration: 1.5, delay: 0.5 }}
+              >
+                Free Trial
+              </motion.button>
+            </div>
+          </motion.div>
         </div>
-      </section>
-        {/* Footer */}
+      </motion.section>
+
       <Footer />
     </div>
   );

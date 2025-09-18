@@ -4,21 +4,20 @@ import HeroSection from "../components/HeroSection";
 import Footer from "../components/Footer";
 import CoursesSection from "../components/Courses";
 import TeachersSection from "../components/Teachers";
-import WhyJoinGrid from "../components/whyjoingrid";
 import WhyJoinUs from "../components/whyJoinUs";
-import OurValues from "../components/Ourvalues";
+import OurValues from "../components/ourValues";
+import Chatbot from "../components/Chatbot";
 export default function HomePage() {
   return (
     <>
       <Navbar />
+      <Chatbot/>
       <HeroSection />
        <TeachersSection />
       <CoursesSection />
       <WhyJoinUs />
-      <WhyJoinGrid />
       <OurValues />
       <Footer />
-   
           </>
   );
 }

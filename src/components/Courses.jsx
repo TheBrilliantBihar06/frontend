@@ -1,96 +1,110 @@
 import React from "react";
 
+// Course data array for dynamic rendering
+const courses = [
+  {
+    id: 1,
+    title: "Complete UPSC Preparation Course",
+    description:
+      "Comprehensive UPSC preparation with expert faculty, mock tests, and personalized guidance to crack India's toughest civil services exam.",
+    features: [
+      "📚 All Subjects Covered",
+      "⏰ 12 Months Duration",
+      "👨‍🏫 Expert Faculty",
+      "📝 Mock Tests Included",
+    ],
+    comingSoon: true,
+  },
+  {
+    id: 2,
+    title: "Complete BPSC Preparation Course",
+    description:
+      "Specialized BPSC preparation program designed for Bihar state civil services with regional focus and comprehensive study material.",
+    features: [
+      "📚 Bihar Specific Content",
+      "⏰ 8 Months Duration",
+      "👨‍🏫 Local Expert Faculty",
+      "📝 Practice Tests",
+    ],
+    comingSoon: true,
+  },
+];
+
+// Reusable CourseCard component
+const CourseCard = ({ title, description, features, comingSoon }) => {
+  return (
+    <div className="bg-[#161a23] rounded-xl shadow-lg overflow-hidden border border-gray-800 hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 relative w-full max-w-md">
+      {/* Image Placeholder with Gradient Overlay */}
+      <div className="h-48 bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center relative">
+        <span className="text-white text-lg font-semibold opacity-80">
+          {title}
+        </span>
+        {/* Overlay for visual effect */}
+        <div className="absolute inset-0 bg-black opacity-20"></div>
+      </div>
+
+      {/* Coming Soon Badge */}
+      {comingSoon && (
+        <div className="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full animate-pulse">
+          Coming Soon
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="p-6">
+        <h3 className="text-xl font-semibold text-white mb-3">{title}</h3>
+        <p className="text-gray-400 text-sm mb-4">{description}</p>
+
+        {/* Features Grid */}
+        <div className="grid grid-cols-2 gap-2 text-sm text-gray-300 mb-4">
+          {features.map((feature, index) => (
+            <span key={index} className="flex items-center space-x-2">
+              {feature}
+            </span>
+          ))}
+        </div>
+
+        {/* Price */}
+        <div className="text-lg font-bold text-indigo-400">
+          {comingSoon ? "Pricing Available Soon" : "Enroll Now"}
+        </div>
+
+        {/* CTA Button */}
+        <button
+          className={`mt-4 w-full py-2 rounded-lg font-semibold transition-colors duration-200 ${
+            comingSoon
+              ? "bg-gray-600 text-gray-300 cursor-not-allowed"
+              : "bg-indigo-600 text-white hover:bg-indigo-700"
+          }`}
+          disabled={comingSoon}
+        >
+          {comingSoon ? "Coming Soon" : "Enroll Now"}
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export default function CoursesSection() {
   return (
-    <section className="bg-gradient-to-b from-gray-800 to-gray-900 text-white py-12 px-6 md:px-16">
+    <section className="bg-gradient-to-b from-gray-800 to-gray-900 text-white py-16 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
         {/* Heading */}
-        <h2 className="text-3xl font-bold mb-10 text-center">
-          Premium Courses
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-blue-500">
+          Explore Our Premium Courses
         </h2>
 
-        {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Card 1 */}
-          <div className="bg-[#161a23] rounded-xl shadow-lg overflow-hidden border border-gray-800 hover:shadow-2xl transition relative">
-            {/* Image Placeholder */}
-            <div className="h-40 bg-gray-700 flex items-center justify-center">
-              <span className="text-gray-400">[ Add Image Here ]</span>
-            </div>
-
-            {/* Discount Badge */}
-            <div className="absolute  text-white text-xs font-bold px-3 py-1 rounded-br-lg">
-              
-            </div>
-
-            {/* Content */}
-            <div className="p-5">
-              <h3 className="text-lg font-semibold">
-                The Ultimate Job Ready Data Science Course
-              </h3>
-              <p className="text-gray-400 text-sm mt-2">
-                Ready to break into the world of Data Science? This all-in-one
-                Job-Ready course will help you master the skills.
-              </p>
-
-              {/* Info */}
-              <div className="flex items-center space-x-4 text-sm text-gray-400 mt-4">
-                <span></span>
-                <span></span>
-              </div>
-              <div className="flex items-center space-x-4 text-sm text-gray-400 mt-2">
-                <span></span>
-                <span></span>
-              </div>
-
-              {/* Price */}
-              <div className="mt-4 text-xl font-bold">
-                {" "}
-                <span className="text-gray-500 line-through text-sm"></span>
-              </div>
-            </div>
-          </div>
-
-          {/* Card 2 */}
-          <div className="bg-[#161a23] rounded-xl shadow-lg overflow-hidden border border-gray-800 hover:shadow-2xl transition relative">
-            {/* Image Placeholder */}
-            <div className="h-40 bg-gray-700 flex items-center justify-center">
-              <span className="text-gray-400">[ Add Image Here ]</span>
-            </div>
-
-            {/* Discount Badge */}
-            <div className="absolute  text-white text-xs font-bold px-3 py-1 rounded-br-lg">
-              
-            </div>
-
-            {/* Content */}
-            <div className="p-5">
-              <h3 className="text-lg font-semibold">
-                [English] Complete 2025 Python Bootcamp: Learn Python from
-                Scratch
-              </h3>
-              <p className="text-gray-400 text-sm mt-2">
-                Unlock your potential and become a confident Python developer in
-                2025 with this beginner-friendly course.
-              </p>
-
-              {/* Info */}
-              <div className="flex items-center space-x-4 text-sm text-gray-400 mt-4">
-                <span></span>
-                <span></span>
-              </div>
-              <div className="flex items-center space-x-4 text-sm text-gray-400 mt-2">
-                <span></span>
-                <span></span>
-              </div>
-
-              {/* Price */}
-              <div className="mt-4 text-xl font-bold">
-                {" "}
-                <span className="text-gray-500 line-through text-sm"></span>
-              </div>
-            </div>
-          </div>
+        {/* Courses Flex Container */}
+        <div className="flex flex-wrap justify-center gap-8">
+          {courses.map((course) => (
+            <CourseCard
+              key={course.id}
+              title={course.title}
+              description={course.description}
+              features={course.features}
+              comingSoon={course.comingSoon}
+            />
+          ))}
         </div>
       </div>
     </section>
