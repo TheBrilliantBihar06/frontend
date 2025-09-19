@@ -193,7 +193,7 @@ const Attendance = ({ courses = [] }) => {
           <select 
             value={selectedCourse} 
             onChange={(e) => setSelectedCourse(parseInt(e.target.value))}
-            className="flex-1 sm:flex-none sm:min-w-64 p-3 border border-gray-300 rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200"
+            className="flex-1 sm:flex-none sm:min-w-64 p-3 border border-gray-300 rounded-lg bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-black"
           >
             {courseList.map(course => (
               <option key={course.id} value={course.id}>
