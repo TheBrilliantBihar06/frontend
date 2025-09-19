@@ -1,419 +1,560 @@
 import React, { useState, useEffect } from 'react';
+import {
+  User,
+  Upload,
+  Edit,
+  FileText,
+  GraduationCap,
+  Phone,
+  CreditCard,
+  CheckCircle,
+  XCircle,
+  Users,
+  Calendar,
+  Shield,
+  Save
+} from 'lucide-react';
 
-// Custom Icons with enhanced styling
-const PhotoIcon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-    <circle cx="9" cy="9" r="2"/>
-    <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
-  </svg>
-);
-
-const PenIcon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-    <path d="m15 5 4 4"/>
-  </svg>
-);
-
-const UploadIcon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
-    <polyline points="17 8 12 3 7 8"/>
-    <line x1="12" x2="12" y1="3" y2="15"/>
-  </svg>
-);
-
-const FileUpIcon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L15 2z"/>
-    <path d="M14 2v6h6"/>
-    <path d="M12 11v6"/>
-    <path d="M9 14l3-3 3 3"/>
-  </svg>
-);
-
-const CheckIcon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M20 6 9 17l-5-5"/>
-  </svg>
-);
-
-const XIcon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>
-    <path d="M18 6 6 18"/>
-    <path d="m6 6 12 12"/>
-  </svg>
-);
-
-const SparkleIcon = ({ className }) => (
-  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className={className}>
-    <path d="M12 2L14.09 8.26L22 9L14.09 9.74L12 16L9.91 9.74L2 9L9.91 8.26L12 2Z"/>
-  </svg>
-);
-
-const GradientButton = ({ onClick, children, className = "" }) => (
-  <button 
-    onClick={onClick}
-    className={`relative overflow-hidden rounded-2xl bg-gradient-to-r from-violet-600 via-purple-600 to-blue-600 p-[2px] transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-purple-500/25 ${className}`}
-  >
-    <div className="relative rounded-2xl bg-black px-8 py-3 text-white transition-all duration-300 hover:bg-transparent">
-      {children}
-    </div>
-  </button>
-);
-
-// Enhanced File Upload Component
-const FileUpload = ({ label, isMissing, uploadState, handleFileDrop }) => {
-  const { isUploading, progress, isUploaded, previewUrl, fileName } = uploadState;
-  const [isHovered, setIsHovered] = useState(false);
-
-  const renderIcon = () => {
-    if (isUploaded) {
-      return <CheckIcon className="h-8 w-8 text-emerald-500 drop-shadow-lg" />;
-    } else if (isUploading) {
-      return <FileUpIcon className="h-8 w-8 text-blue-500 animate-pulse drop-shadow-lg" />;
-    }
-    return <UploadIcon className="h-8 w-8 text-gray-400 drop-shadow-lg" />;
-  };
-
-  return (
-    <div className="group">
-      <div
-        className={`relative overflow-hidden rounded-3xl p-[2px] transition-all duration-500 cursor-pointer
-          ${isUploaded 
-            ? 'bg-gradient-to-r from-emerald-400 to-cyan-400' 
-            : isMissing 
-              ? 'bg-gradient-to-r from-red-400 to-pink-400' 
-              : 'bg-gradient-to-r from-violet-400 to-purple-400'
-          }
-          ${isHovered ? 'scale-105 shadow-2xl shadow-purple-500/25' : ''}
-        `}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onDrop={(e) => handleFileDrop(e, label)}
-        onDragOver={(e) => e.preventDefault()}
-        onDragEnter={(e) => e.preventDefault()}
-      >
-        <input 
-          type="file" 
-          className="hidden" 
-          id={`upload-${label}`} 
-          onChange={(e) => handleFileDrop(e, label, true)} 
-        />
-        <label htmlFor={`upload-${label}`} className="absolute inset-0 cursor-pointer z-20" />
-        
-        <div className={`relative rounded-3xl p-8 transition-all duration-500
-          ${isUploaded 
-            ? 'bg-gradient-to-br from-emerald-50 to-cyan-50' 
-            : 'bg-white/90 backdrop-blur-xl'
-          }
-        `}>
-          <div className="flex flex-col items-center space-y-4 text-center">
-            <div className={`p-4 rounded-2xl transition-all duration-300
-              ${isUploaded 
-                ? 'bg-emerald-100 shadow-lg shadow-emerald-200/50' 
-                : 'bg-gray-100 group-hover:bg-violet-100 shadow-lg shadow-gray-200/50'
-              }
-            `}>
-              {renderIcon()}
-            </div>
-            
-            <div className="space-y-2">
-              <h3 className="text-lg font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                {label}
-              </h3>
-              
-              {!isUploaded && !isUploading && (
-                <p className={`text-sm transition-all duration-300
-                  ${isMissing ? 'text-red-600 font-semibold' : 'text-gray-500'}
-                `}>
-                  Drag & drop or click to upload
-                </p>
-              )}
-              
-              {isUploading && (
-                <div className="w-full">
-                  <div className="w-full bg-gray-200 rounded-full h-3 mb-2 overflow-hidden">
-                    <div 
-                      className="bg-gradient-to-r from-blue-500 to-purple-500 h-3 rounded-full transition-all duration-300 shadow-sm"
-                      style={{ width: `${progress}%` }}
-                    />
-                  </div>
-                  <p className="text-sm text-blue-600 font-medium">Uploading... {progress}%</p>
-                </div>
-              )}
-              
-              {isUploaded && (
-                <div className="space-y-3">
-                  {previewUrl && (
-                    <a href={previewUrl} target="_blank" rel="noopener noreferrer" className="block">
-                      <img 
-                        src={previewUrl} 
-                        alt="Preview" 
-                        className="h-16 w-auto mx-auto rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300"
-                      />
-                    </a>
-                  )}
-                  <div className="space-y-1">
-                    <p className="text-sm text-gray-700 font-medium truncate max-w-[150px] mx-auto">
-                      {fileName}
-                    </p>
-                    <div className="flex items-center justify-center space-x-2">
-                      <CheckIcon className="h-4 w-4 text-emerald-500" />
-                      <span className="text-emerald-600 text-sm font-bold">Uploaded!</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-// Main App Component
-const StudentProfile = () => {
-  // Simplified state for demo purposes
-  const [profilePic, setProfilePic] = useState('https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop&crop=face');
-  const [name, setName] = useState('Alexandra Chen');
-  const [documents, setDocuments] = useState({
-    '10th Marksheet': { file: null, previewUrl: null, isUploading: false, progress: 0, isUploaded: false, fileName: '' },
-    '12th Marksheet': { file: null, previewUrl: null, isUploading: false, progress: 0, isUploaded: true, fileName: 'Grade12_Certificate.pdf' },
-    'Graduation Marksheet': { file: null, previewUrl: null, isUploading: false, progress: 0, isUploaded: false, fileName: '' },
+const ProfessionalForm = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    fatherName: '',
+    motherName: '',
+    universityName: '',
+    graduationYear: '',
+    aadharNumber: '',
+    panNumber: '',
+    contactNumber: '',
+    class10Certificate: null,
+    class12Certificate: null,
+    graduationCertificate: null
   });
 
-  const isDocumentMissing = Object.values(documents).some(doc => !doc.isUploaded);
-  const uploadedCount = Object.values(documents).filter(doc => doc.isUploaded).length;
-  const totalCount = Object.keys(documents).length;
+  const [showProfile, setShowProfile] = useState(false);
+  const [completionPercentage, setCompletionPercentage] = useState(0);
+  const [errors, setErrors] = useState({});
 
-  const handleFileDrop = (e, label, isClick = false) => {
-    e.preventDefault();
-    e.stopPropagation();
+  // Generate graduation years
+  const currentYear = new Date().getFullYear();
+  const graduationYears = Array.from({ length: 40 }, (_, i) => currentYear - i);
 
-    const file = isClick ? e.target.files[0] : e.dataTransfer.files[0];
-    if (!file) return;
+  // Calculate completion percentage
+  useEffect(() => {
+    const requiredFields = ['fullName', 'fatherName', 'motherName', 'aadharNumber', 'panNumber', 'contactNumber'];
+    const optionalFields = ['universityName', 'graduationYear'];
+    const requiredDocuments = ['class10Certificate', 'class12Certificate'];
+    const optionalDocuments = ['graduationCertificate'];
+    
+    let score = 0;
+    const totalPoints = 100;
 
-    setDocuments(prev => ({
-      ...prev,
-      [label]: { ...prev[label], isUploading: true, progress: 0, fileName: file.name }
-    }));
-
-    let currentProgress = 0;
-    const progressInterval = setInterval(() => {
-      currentProgress += Math.random() * 15 + 5;
-      if (currentProgress > 100) currentProgress = 100;
-      
-      setDocuments(prev => ({
-        ...prev,
-        [label]: { ...prev[label], progress: Math.floor(currentProgress) }
-      }));
-
-      if (currentProgress >= 100) {
-        clearInterval(progressInterval);
-        const previewUrl = URL.createObjectURL(file);
-        
-        setDocuments(prev => ({
-          ...prev,
-          [label]: { 
-            ...prev[label], 
-            isUploading: false, 
-            isUploaded: true, 
-            progress: 100, 
-            previewUrl, 
-            fileName: file.name 
-          }
-        }));
+    // Required fields (50 points total)
+    requiredFields.forEach(field => {
+      if (formData[field]?.toString().trim()) {
+        score += 50 / requiredFields.length;
       }
-    }, 150);
+    });
+
+    // Required documents (30 points total)
+    requiredDocuments.forEach(field => {
+      if (formData[field]) {
+        score += 30 / requiredDocuments.length;
+      }
+    });
+
+    // Optional fields (20 points total)
+    const allOptional = [...optionalFields, ...optionalDocuments];
+    allOptional.forEach(field => {
+      if (formData[field]) {
+        score += 20 / allOptional.length;
+      }
+    });
+    
+    setCompletionPercentage(Math.round(score));
+  }, [formData]);
+
+  const validateField = (field, value) => {
+    const newErrors = { ...errors };
+
+    switch (field) {
+      case 'aadharNumber':
+        if (value && !/^\d{12}$/.test(value)) {
+          newErrors[field] = 'Aadhar number must be 12 digits';
+        } else {
+          delete newErrors[field];
+        }
+        break;
+      case 'panNumber':
+        if (value && !/^[A-Z]{5}[0-9]{4}[A-Z]{1}$/.test(value)) {
+          newErrors[field] = 'Invalid PAN format (e.g., ABCDE1234F)';
+        } else {
+          delete newErrors[field];
+        }
+        break;
+      case 'contactNumber':
+        if (value && !/^\d{10}$/.test(value)) {
+          newErrors[field] = 'Contact number must be 10 digits';
+        } else {
+          delete newErrors[field];
+        }
+        break;
+      default:
+        if (value.trim()) {
+          delete newErrors[field];
+        }
+    }
+
+    setErrors(newErrors);
   };
 
-  const handleProfilePicChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    setProfilePic(URL.createObjectURL(file));
+  const handleInputChange = (field, value) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+    validateField(field, value);
   };
+
+  const handleFileUpload = (field, event) => {
+    const file = event.target.files[0];
+    if (file) {
+      if (file.type === 'application/pdf') {
+        if (file.size <= 5 * 1024 * 1024) { // 5MB limit
+          setFormData(prev => ({ ...prev, [field]: file }));
+        } else {
+          alert('File size should be less than 5MB');
+        }
+      } else {
+        alert('Please upload a PDF file only');
+      }
+    }
+  };
+
+  const handleSaveChanges = () => {
+    const requiredFields = ['fullName', 'fatherName', 'motherName', 'aadharNumber', 'panNumber', 'contactNumber'];
+    const missingFields = requiredFields.filter(field => !formData[field]?.toString().trim());
+    
+    if (missingFields.length > 0 || Object.keys(errors).length > 0) {
+      alert('Please fill all required fields correctly');
+      return;
+    }
+    
+    setShowProfile(true);
+  };
+
+  const getProgressColor = () => {
+    if (completionPercentage >= 80) return { bg: 'bg-emerald-500', text: 'text-emerald-600', border: 'border-emerald-200' };
+    if (completionPercentage >= 50) return { bg: 'bg-amber-500', text: 'text-amber-600', border: 'border-amber-200' };
+    return { bg: 'bg-red-500', text: 'text-red-600', border: 'border-red-200' };
+  };
+
+  const colors = getProgressColor();
+
+  if (showProfile) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-8">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6">
+              <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                <div>
+                  <h1 className="text-3xl font-bold text-white mb-2">Profile Dashboard</h1>
+                  <p className="text-blue-100">Your professional information at a glance</p>
+                </div>
+                <button
+                  onClick={() => setShowProfile(false)}
+                  className="flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-6 py-3 rounded-lg transition-all duration-200 backdrop-blur-sm border border-white/20"
+                >
+                  <Edit size={20} />
+                  Edit Profile
+                </button>
+              </div>
+            </div>
+
+            <div className="p-8">
+              {/* Profile Header */}
+              <div className="flex items-center mb-8 p-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl">
+                <div className="w-24 h-24 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl flex items-center justify-center mr-6 shadow-lg">
+                  <User size={48} className="text-white" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-bold text-gray-800 mb-2">
+                    {formData.fullName || 'Full Name'}
+                  </h2>
+                  <div className={`inline-flex items-center px-4 py-2 rounded-full text-sm font-semibold ${
+                    completionPercentage >= 80 ? 'bg-emerald-100 text-emerald-800' : 
+                    completionPercentage >= 50 ? 'bg-amber-100 text-amber-800' : 
+                    'bg-red-100 text-red-800'
+                  }`}>
+                    <div className={`w-3 h-3 rounded-full mr-2 ${colors.bg}`}></div>
+                    Profile {completionPercentage}% Complete
+                  </div>
+                </div>
+              </div>
+
+              {/* Information Cards */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Personal Information */}
+                <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-center mb-4">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                      <Users className="text-blue-600" size={20} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800">Personal Information</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-600">Full Name</span>
+                      <span className="text-gray-800">{formData.fullName || '—'}</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-600">Father's Name</span>
+                      <span className="text-gray-800">{formData.fatherName || '—'}</span>
+                    </div>
+                    <div className="flex justify-between py-2">
+                      <span className="font-medium text-gray-600">Mother's Name</span>
+                      <span className="text-gray-800">{formData.motherName || '—'}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Education */}
+                <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-center mb-4">
+                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                      <GraduationCap className="text-green-600" size={20} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800">Education</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-600">University</span>
+                      <span className="text-gray-800">{formData.universityName || 'Not provided'}</span>
+                    </div>
+                    <div className="flex justify-between py-2">
+                      <span className="font-medium text-gray-600">Graduation Year</span>
+                      <span className="text-gray-800">{formData.graduationYear || 'Not provided'}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Identity & Contact */}
+                <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-center mb-4">
+                    <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                      <Shield className="text-purple-600" size={20} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800">Identity & Contact</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-600">Aadhar Number</span>
+                      <span className="text-gray-800 font-mono">{formData.aadharNumber || '—'}</span>
+                    </div>
+                    <div className="flex justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-600">PAN Number</span>
+                      <span className="text-gray-800 font-mono">{formData.panNumber || '—'}</span>
+                    </div>
+                    <div className="flex justify-between py-2">
+                      <span className="font-medium text-gray-600">Contact Number</span>
+                      <span className="text-gray-800">{formData.contactNumber || '—'}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Documents */}
+                <div className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                  <div className="flex items-center mb-4">
+                    <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                      <FileText className="text-orange-600" size={20} />
+                    </div>
+                    <h3 className="text-xl font-semibold text-gray-800">Documents</h3>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-600">Class 10th Certificate</span>
+                      <div className="flex items-center">
+                        {formData.class10Certificate ? 
+                          <><CheckCircle className="text-emerald-500 mr-1" size={16} /><span className="text-emerald-600 text-sm">Uploaded</span></> : 
+                          <><XCircle className="text-red-500 mr-1" size={16} /><span className="text-red-600 text-sm">Missing</span></>
+                        }
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between py-2 border-b border-gray-100">
+                      <span className="font-medium text-gray-600">Class 12th Certificate</span>
+                      <div className="flex items-center">
+                        {formData.class12Certificate ? 
+                          <><CheckCircle className="text-emerald-500 mr-1" size={16} /><span className="text-emerald-600 text-sm">Uploaded</span></> : 
+                          <><XCircle className="text-red-500 mr-1" size={16} /><span className="text-red-600 text-sm">Missing</span></>
+                        }
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between py-2">
+                      <span className="font-medium text-gray-600">Graduation Certificate</span>
+                      <div className="flex items-center">
+                        {formData.graduationCertificate ? 
+                          <><CheckCircle className="text-emerald-500 mr-1" size={16} /><span className="text-emerald-600 text-sm">Uploaded</span></> : 
+                          <><XCircle className="text-gray-400 mr-1" size={16} /><span className="text-gray-500 text-sm">Optional</span></>
+                        }
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-100 via-purple-50 to-cyan-100 p-4">
-      {/* Animated Background Elements */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-20 w-72 h-72 bg-gradient-to-r from-violet-300 to-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse" />
-        <div className="absolute top-40 right-20 w-64 h-64 bg-gradient-to-r from-cyan-300 to-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-2000" />
-        <div className="absolute bottom-20 left-1/2 w-80 h-80 bg-gradient-to-r from-pink-300 to-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse animation-delay-4000" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-12 space-y-4">
-          <div className="flex items-center justify-center space-x-2 mb-4">
-            <SparkleIcon className="h-8 w-8 text-violet-600 animate-pulse" />
-            <h1 className="text-6xl font-black bg-gradient-to-r from-violet-600 via-purple-600 to-cyan-600 bg-clip-text text-transparent">
-              Student Portal
-            </h1>
-            <SparkleIcon className="h-8 w-8 text-cyan-600 animate-pulse" />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 py-8">
+      <div className="max-w-4xl mx-auto px-4">
+        <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-6">
+            <h1 className="text-3xl font-bold text-white mb-2">Professional Profile Form</h1>
+            <p className="text-blue-100">Complete your profile to get started</p>
           </div>
-          <p className="text-xl text-gray-600 font-medium">
-            Manage your academic profile with style
-          </p>
-        </div>
 
-        {/* Main Content */}
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Profile Card */}
-          <div className="lg:col-span-1">
-            <div className="relative overflow-hidden rounded-3xl p-[2px] bg-gradient-to-r from-violet-400 via-purple-400 to-cyan-400">
-              <div className="relative rounded-3xl bg-white/90 backdrop-blur-xl p-8">
-                {/* Profile Picture */}
-                <div className="flex flex-col items-center space-y-6">
-                  <div className="relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-violet-600 to-cyan-600 rounded-full blur-lg opacity-75 group-hover:opacity-100 transition-opacity duration-300" />
-                    <div className="relative w-32 h-32">
-                      <img
-                        className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-2xl"
-                        src={profilePic}
-                        alt="Profile"
-                      />
+          <div className="p-8">
+            {/* Progress Bar */}
+            <div className="mb-8 p-6 bg-gradient-to-r from-gray-50 to-blue-50 rounded-xl">
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-lg font-semibold text-gray-700">Profile Completion</span>
+                <span className={`text-lg font-bold ${colors.text}`}>
+                  {completionPercentage}%
+                </span>
+              </div>
+              <div className="w-full bg-gray-200 rounded-full h-3 shadow-inner">
+                <div 
+                  className={`h-3 rounded-full transition-all duration-500 ease-out ${colors.bg} shadow-sm`}
+                  style={{ width: `${completionPercentage}%` }}
+                ></div>
+              </div>
+              <p className="text-sm text-gray-600 mt-2">
+                {completionPercentage < 50 ? 'Just getting started!' : 
+                  completionPercentage < 80 ? 'Great progress!' : 
+                  'Almost there!'}
+              </p>
+            </div>
+
+            <div className="space-y-8">
+              {/* Personal Information */}
+              <section>
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center mr-3">
+                    <Users className="text-blue-600" size={20} />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-800">Personal Information</h2>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Full Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter your full name"
+                      value={formData.fullName}
+                      onChange={(e) => handleInputChange('fullName', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors placeholder:text-black text-gray-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Father's Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter father's name"
+                      value={formData.fatherName}
+                      onChange={(e) => handleInputChange('fatherName', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors placeholder:text-black text-gray-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Mother's Name <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter mother's name"
+                      value={formData.motherName}
+                      onChange={(e) => handleInputChange('motherName', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors placeholder:text-black text-gray-900"
+                    />
+                  </div>
+                </div>
+              </section>
+
+              {/* Education */}
+              <section>
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mr-3">
+                    <GraduationCap className="text-green-600" size={20} />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-800">Education</h2>
+                  <span className="ml-3 px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">Optional</span>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      University Name
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter university name"
+                      value={formData.universityName}
+                      onChange={(e) => handleInputChange('universityName', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors placeholder:text-black text-gray-900"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Graduation Year
+                    </label>
+                    <select
+                      value={formData.graduationYear}
+                      onChange={(e) => handleInputChange('graduationYear', e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors text-gray-900"
+                    >
+                      <option value="">Select graduation year</option>
+                      {graduationYears.map((year) => (
+                        <option key={year} value={year}>{year}</option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              </section>
+
+              {/* Identity & Contact */}
+              <section>
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center mr-3">
+                    <Shield className="text-purple-600" size={20} />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-800">Identity & Contact</h2>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Aadhar Number <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter 12-digit Aadhar number"
+                      value={formData.aadharNumber}
+                      onChange={(e) => handleInputChange('aadharNumber', e.target.value.replace(/\D/g, '').slice(0, 12))}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-colors placeholder:text-black text-gray-900 ${
+                        errors.aadharNumber ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
+                      }`}
+                    />
+                    {errors.aadharNumber && <p className="text-red-500 text-sm mt-1">{errors.aadharNumber}</p>}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      PAN Number <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Enter PAN number (e.g., ABCDE1234F)"
+                      value={formData.panNumber}
+                      onChange={(e) => handleInputChange('panNumber', e.target.value.toUpperCase().slice(0, 10))}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-colors font-mono placeholder:text-black text-gray-900 ${
+                        errors.panNumber ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
+                      }`}
+                    />
+                    {errors.panNumber && <p className="text-red-500 text-sm mt-1">{errors.panNumber}</p>}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Contact Number <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      type="tel"
+                      placeholder="Enter 10-digit contact number"
+                      value={formData.contactNumber}
+                      onChange={(e) => handleInputChange('contactNumber', e.target.value.replace(/\D/g, '').slice(0, 10))}
+                      className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 transition-colors placeholder:text-black text-gray-900 ${
+                        errors.contactNumber ? 'border-red-500' : 'border-gray-300 focus:border-blue-500'
+                      }`}
+                    />
+                    {errors.contactNumber && <p className="text-red-500 text-sm mt-1">{errors.contactNumber}</p>}
+                  </div>
+                </div>
+              </section>
+
+              {/* Document Upload */}
+              <section>
+                <div className="flex items-center mb-6">
+                  <div className="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center mr-3">
+                    <FileText className="text-orange-600" size={20} />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-800">Document Upload</h2>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    { field: 'class10Certificate', label: 'Class 10th Certificate', required: true },
+                    { field: 'class12Certificate', label: 'Class 12th Certificate', required: true },
+                    { field: 'graduationCertificate', label: 'Graduation Certificate', required: false }
+                  ].map(({ field, label, required }) => (
+                    <div key={field} className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors">
                       <input
                         type="file"
-                        id="profile-pic-upload"
+                        accept=".pdf"
+                        onChange={(e) => handleFileUpload(field, e)}
                         className="hidden"
-                        onChange={handleProfilePicChange}
-                        accept="image/*"
+                        id={field}
                       />
-                      <label
-                        htmlFor="profile-pic-upload"
-                        className="absolute bottom-2 right-2 p-3 bg-gradient-to-r from-violet-600 to-purple-600 rounded-full text-white cursor-pointer hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-2xl"
-                      >
-                        <PenIcon className="w-5 h-5" />
+                      <label htmlFor={field} className="cursor-pointer block">
+                        <Upload className="mx-auto mb-3 text-gray-400" size={32} />
+                        <h3 className="font-semibold text-gray-700 mb-1">
+                          {label} {required && <span className="text-red-500">*</span>}
+                        </h3>
+                        <p className="text-sm text-gray-500 mb-3">PDF files only (max 5MB)</p>
+                        <div className="bg-blue-50 text-blue-600 px-4 py-2 rounded-lg inline-flex items-center text-sm font-medium hover:bg-blue-100 transition-colors">
+                          <Upload size={16} className="mr-2" />
+                          Choose File
+                        </div>
+                        {formData[field] && (
+                          <div className="mt-3 p-2 bg-green-50 rounded-lg">
+                            <CheckCircle className="inline text-green-500 mr-1" size={16} />
+                            <span className="text-green-700 text-sm">{formData[field].name}</span>
+                          </div>
+                        )}
                       </label>
                     </div>
-                  </div>
-
-                  <div className="text-center space-y-2">
-                    <h2 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                      {name}
-                    </h2>
-                    <p className="text-gray-500 font-medium">Computer Science Student</p>
-                    <div className="px-4 py-2 bg-gradient-to-r from-violet-100 to-purple-100 rounded-full">
-                      <p className="text-sm text-violet-700 font-medium">
-                        ID: CS2024-{Math.random().toString(36).substr(2, 6).toUpperCase()}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Stats */}
-                  <div className="w-full grid grid-cols-2 gap-4 pt-6 border-t border-gray-200">
-                    <div className="text-center p-4 rounded-2xl bg-gradient-to-br from-violet-50 to-purple-50">
-                      <div className="text-2xl font-bold text-violet-600">{uploadedCount}</div>
-                      <div className="text-sm text-gray-600">Uploaded</div>
-                    </div>
-                    <div className="text-center p-4 rounded-2xl bg-gradient-to-br from-cyan-50 to-blue-50">
-                      <div className="text-2xl font-bold text-cyan-600">{totalCount - uploadedCount}</div>
-                      <div className="text-sm text-gray-600">Pending</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Documents Section */}
-          <div className="lg:col-span-2">
-            <div className="relative overflow-hidden rounded-3xl p-[2px] bg-gradient-to-r from-violet-400 via-purple-400 to-cyan-400">
-              <div className="relative rounded-3xl bg-white/90 backdrop-blur-xl p-8">
-                {/* Header */}
-                <div className="flex items-center justify-between mb-8">
-                  <div className="space-y-2">
-                    <div className="flex items-center space-x-3">
-                      <PhotoIcon className="h-8 w-8 text-violet-600" />
-                      <h3 className="text-3xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
-                        Academic Documents
-                      </h3>
-                    </div>
-                    <p className="text-gray-600">Upload your certificates and marksheets</p>
-                  </div>
-                  
-                  {isDocumentMissing && (
-                    <div className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-red-100 to-pink-100 rounded-full border border-red-200">
-                      <XIcon className="h-5 w-5 text-red-500" />
-                      <span className="text-red-700 font-semibold text-sm">Documents Missing</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Progress Bar */}
-                <div className="mb-8">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-gray-700">Upload Progress</span>
-                    <span className="text-sm font-medium text-violet-600">{uploadedCount}/{totalCount} Complete</span>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-4 overflow-hidden">
-                    <div 
-                      className="bg-gradient-to-r from-violet-500 to-purple-500 h-4 rounded-full transition-all duration-500 shadow-sm"
-                      style={{ width: `${(uploadedCount / totalCount) * 100}%` }}
-                    />
-                  </div>
-                </div>
-
-                {/* Upload Grid */}
-                <div className="grid md:grid-cols-3 gap-6">
-                  {Object.keys(documents).map(key => (
-                    <FileUpload
-                      key={key}
-                      label={key}
-                      uploadState={documents[key]}
-                      isMissing={!documents[key].isUploaded}
-                      handleFileDrop={handleFileDrop}
-                    />
                   ))}
                 </div>
+              </section>
 
-                {/* Action Buttons */}
-                <div className="flex items-center justify-center space-x-4 mt-8 pt-8 border-t border-gray-200">
-                  <GradientButton onClick={() => console.log('Save Profile')}>
-                    Save Profile
-                  </GradientButton>
-                  <GradientButton onClick={() => console.log('Download Report')}>
-                    Download Report
-                  </GradientButton>
-                </div>
+              {/* Submit Button */}
+              <div className="flex justify-center pt-8">
+                <button
+                  type="button"
+                  onClick={handleSaveChanges}
+                  className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-4 rounded-lg font-semibold text-lg flex items-center gap-3 shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105"
+                >
+                  <Save size={24} />
+                  Save Changes
+                </button>
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* Footer */}
-        <div className="text-center mt-12 space-y-4">
-          <p className="text-gray-500">
-            Powered by next-generation student management system
-          </p>
-          <div className="flex items-center justify-center space-x-6 text-sm text-gray-400">
-            <span>Secure</span>
-            <span>•</span>
-            <span>Fast</span>
-            <span>•</span>
-            <span>Reliable</span>
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        .animation-delay-2000 {
-          animation-delay: 2s;
-        }
-        .animation-delay-4000 {
-          animation-delay: 4s;
-        }
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); opacity: 0.3; }
-          50% { transform: scale(1.05); opacity: 0.4; }
-        }
-      `}</style>
     </div>
   );
 };
 
-export default StudentProfile;
+export default ProfessionalForm;
+
