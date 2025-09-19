@@ -1,5 +1,13 @@
 import React from "react";
-import { User, Upload, BookOpen, HelpCircle, Video, CalendarPlus } from "lucide-react"; // icons
+import { 
+  User, 
+  Upload, 
+  BookOpen, 
+  HelpCircle, 
+  Video, 
+  CalendarPlus, 
+  FileText   // ✅ Added missing import
+} from "lucide-react"; // icons
 
 const TeacherSidebar = ({ activeComponent, setActiveComponent }) => {
   const menuItems = [
@@ -9,6 +17,7 @@ const TeacherSidebar = ({ activeComponent, setActiveComponent }) => {
     { id: "schedule-class", label: "Schedule Class", icon: <CalendarPlus size={20} /> },
     { id: "take-class", label: "Take Class", icon: <Video size={20} /> },
     { id: "doubts", label: "Doubts", icon: <HelpCircle size={20} /> },
+    { id: "create-test", label: "Create Test", icon: <FileText size={20} /> }, // ✅ New item
   ];
 
   return (
