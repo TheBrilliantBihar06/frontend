@@ -12,11 +12,14 @@ import Courses from "./Courses";
 import Notes from "./Notes";
 import Marks from "./Marks";
 import Ranking from "./Ranking";
+import Mock from "./Mock";
+
 
 const components = {
   profile: Profile,
   attendance: Attendance,
   courses: Courses,
+ mocktest: Mock,
   notes: Notes,
   marks: Marks,
   ranking: Ranking,
