@@ -1,6 +1,5 @@
 // File: Frontend/src/Dashboard/StudentDashboard/Sidebar.jsx
 import React from 'react';
-// Import the X icon for the close button
 import { 
     User, 
     CheckCircle, 
@@ -9,7 +8,7 @@ import {
     Award, 
     StickyNote, 
     ClipboardCheck, 
-    MessageCircle,  // ✅ New icon for Doubt Section
+    MessageCircle,
     X 
 } from 'lucide-react';
 
@@ -21,7 +20,7 @@ const menuItems = [
     { id: 'mocktest', label: 'Mock Test', icon: ClipboardCheck },
     { id: 'marks', label: 'Marks', icon: BarChart2 },
     { id: 'ranking', label: 'Ranking', icon: Award },
-    { id: 'doubt', label: 'Doubt Section', icon: MessageCircle }, // ✅ Added Doubt Section
+    { id: 'doubt', label: 'Doubt Section', icon: MessageCircle },
 ];
 
 export default function Sidebar({ activeView, setActiveView, isOpen, setIsOpen }) {
@@ -33,7 +32,7 @@ export default function Sidebar({ activeView, setActiveView, isOpen, setIsOpen }
 
     const sidebarClasses = `
         w-64 bg-white border-r border-gray-200 flex flex-col
-        fixed md:relative inset-y-0 left-0 z-50
+        sticky top-16 h-[calc(100vh-4rem)]   /* 👈 sticks below navbar (assuming navbar = h-16) */
         transform transition-transform duration-300 ease-in-out
         ${isOpen ? 'translate-x-0' : '-translate-x-full'}
         md:translate-x-0
@@ -51,7 +50,7 @@ export default function Sidebar({ activeView, setActiveView, isOpen, setIsOpen }
             )}
 
             <aside className={sidebarClasses}>
-                {/* Sidebar Header with Close Button for Mobile */}
+                {/* Sidebar Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-200">
                     <h2 className="text-lg font-semibold text-gray-800">Student Menu</h2>
                     <button
@@ -64,7 +63,7 @@ export default function Sidebar({ activeView, setActiveView, isOpen, setIsOpen }
                 </div>
 
                 {/* Navigation Menu */}
-                <nav className="flex-1 px-4 py-6">
+                <nav className="flex-1 px-4 py-6 overflow-y-auto">
                     <ul className="space-y-2">
                         {menuItems.map((item) => (
                             <li key={item.id}>
