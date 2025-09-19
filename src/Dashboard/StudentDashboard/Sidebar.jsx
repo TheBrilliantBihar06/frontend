@@ -1,7 +1,17 @@
 // File: Frontend/src/Dashboard/StudentDashboard/Sidebar.jsx
 import React from 'react';
 // Import the X icon for the close button
-import { User, CheckCircle, BookOpen, BarChart2, Award, StickyNote, ClipboardCheck, X } from 'lucide-react';
+import { 
+    User, 
+    CheckCircle, 
+    BookOpen, 
+    BarChart2, 
+    Award, 
+    StickyNote, 
+    ClipboardCheck, 
+    MessageCircle,  // ✅ New icon for Doubt Section
+    X 
+} from 'lucide-react';
 
 const menuItems = [
     { id: 'profile', label: 'Profile', icon: User },
@@ -11,18 +21,16 @@ const menuItems = [
     { id: 'mocktest', label: 'Mock Test', icon: ClipboardCheck },
     { id: 'marks', label: 'Marks', icon: BarChart2 },
     { id: 'ranking', label: 'Ranking', icon: Award },
+    { id: 'doubt', label: 'Doubt Section', icon: MessageCircle }, // ✅ Added Doubt Section
 ];
 
-// Receive `isOpen` and `setIsOpen` props to control visibility
 export default function Sidebar({ activeView, setActiveView, isOpen, setIsOpen }) {
 
-    // This function now also closes the sidebar on mobile after a selection is made
     const handleItemClick = (itemId) => {
         setActiveView(itemId);
         setIsOpen(false);
     };
 
-    // Responsive classes for the main sidebar container
     const sidebarClasses = `
         w-64 bg-white border-r border-gray-200 flex flex-col
         fixed md:relative inset-y-0 left-0 z-50
@@ -61,7 +69,7 @@ export default function Sidebar({ activeView, setActiveView, isOpen, setIsOpen }
                         {menuItems.map((item) => (
                             <li key={item.id}>
                                 <button
-                                    onClick={() => handleItemClick(item.id)} // Use the new handler
+                                    onClick={() => handleItemClick(item.id)}
                                     className={`w-full flex items-center gap-3 px-4 py-2.5 rounded-lg text-left text-sm font-medium transition-colors duration-200 ${
                                         activeView === item.id 
                                         ? 'bg-blue-600 text-white shadow-sm' 

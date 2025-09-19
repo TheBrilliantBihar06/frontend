@@ -14,6 +14,7 @@ import Notes from "./Notes";
 import Marks from "./Marks";
 import Ranking from "./Ranking";
 import Mock from "./Mock";
+import DoubtChatbox from "./Doubt";
 
 const components = {
   profile: Profile,
@@ -23,7 +24,9 @@ const components = {
   notes: Notes,
   marks: Marks,
   ranking: Ranking,
+  doubt: DoubtChatbox,  // ✅ Added here
 };
+
 
 export default function StudentDashboard() {
   const [activeView, setActiveView] = useState("profile");
