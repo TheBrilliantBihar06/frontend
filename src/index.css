@@ -5,4 +5,5 @@
 body {
   @apply bg-gray-900 text-black;
   font-family: system-ui, sans-serif;
+  
 }
