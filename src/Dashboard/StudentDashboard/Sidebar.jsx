@@ -1,6 +1,6 @@
 // File: Frontend/src/Dashboard/StudentDashboard/Sidebar.jsx
 import React from 'react';
-import { User, CheckCircle, BookOpen, BarChart2, Award, StickyNote } from 'lucide-react';
+import { User, CheckCircle, BookOpen, BarChart2, Award, StickyNote, ClipboardCheck } from 'lucide-react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 const user = {
@@ -14,6 +14,7 @@ const menuItems = [
     { id: 'attendance', label: 'Attendance', icon: CheckCircle },
     { id: 'courses', label: 'Courses', icon: BookOpen },
     { id: 'notes', label: 'Notes', icon: StickyNote },
+    { id: 'mocktest', label: 'Mock Test', icon: ClipboardCheck }, // Added this line
     { id: 'marks', label: 'Marks', icon: BarChart2 },
     { id: 'ranking', label: 'Ranking', icon: Award },
 ];
