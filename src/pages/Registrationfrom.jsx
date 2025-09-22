@@ -89,6 +89,10 @@ const Form = () => {
         { id: 'DAR001', name: 'Darbhanga Center 1', city: 'Darbhanga' }
     ];
 
+    // Helper functions for input validation
+    const isOnlyLetters = (str) => /^[A-Za-z\s]*$/.test(str);
+    const isOnlyNumbers = (str) => /^[0-9]*$/.test(str);
+
     // Generate a unique application ID when the component mounts.
     // In a real app, this would be a call to a backend service.
     useEffect(() => {
@@ -146,10 +150,31 @@ const Form = () => {
                 [name]: files[0]
             }));
         } else {
-            setFormData(prev => ({
-                ...prev,
-                [name]: value
-            }));
+            // Validation for name fields (only letters allowed)
+            if (['fullName', 'fatherName', 'motherName'].includes(name)) {
+                if (isOnlyLetters(value)) {
+                    setFormData(prev => ({
+                        ...prev,
+                        [name]: value
+                    }));
+                }
+            }
+            // Validation for number fields (only numbers allowed)
+            else if (['phone', 'aadhaar', 'tenthPercentage', 'tenthYear', 'twelfthPercentage', 'twelfthYear', 'diplomaPercentage', 'diplomaYear'].includes(name)) {
+                if (isOnlyNumbers(value)) {
+                    setFormData(prev => ({
+                        ...prev,
+                        [name]: value
+                    }));
+                }
+            }
+            // For all other fields, allow normal input
+            else {
+                setFormData(prev => ({
+                    ...prev,
+                    [name]: value
+                }));
+            }
         }
         
         // Clear the error message for a field when the user starts typing.
@@ -373,6 +398,7 @@ const submitForm = async () => {
                         name="fullName"
                         value={formData.fullName}
                         onChange={handleInputChange}
+                        placeholder="Only letters allowed"
                         className={`w-full px-4 py-3 bg-white border-2 rounded-lg transition-colors text-gray-800 ${
                             errors.fullName ? 'border-red-500' : 'border-gray-200 focus:border-green-500 focus:ring-0'
                         }`}
@@ -387,6 +413,7 @@ const submitForm = async () => {
                         name="fatherName"
                         value={formData.fatherName}
                         onChange={handleInputChange}
+                        placeholder="Only letters allowed"
                         className={`w-full px-4 py-3 bg-white border-2 rounded-lg transition-colors text-gray-800 ${
                             errors.fatherName ? 'border-red-500' : 'border-gray-200 focus:border-green-500 focus:ring-0'
                         }`}
@@ -403,6 +430,7 @@ const submitForm = async () => {
                         name="motherName"
                         value={formData.motherName}
                         onChange={handleInputChange}
+                        placeholder="Only letters allowed"
                         className={`w-full px-4 py-3 bg-white border-2 rounded-lg transition-colors text-gray-800 ${
                             errors.motherName ? 'border-red-500' : 'border-gray-200 focus:border-green-500 focus:ring-0'
                         }`}
@@ -491,6 +519,7 @@ const submitForm = async () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         placeholder="10-digit mobile number"
+                        maxLength="10"
                         className={`w-full px-4 py-3 bg-white border-2 rounded-lg transition-colors text-gray-800 ${
                             errors.phone ? 'border-red-500' : 'border-gray-200 focus:border-green-500 focus:ring-0'
                         }`}
@@ -593,8 +622,8 @@ const submitForm = async () => {
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">10th Standard</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input name="tenthSchool" value={formData.tenthSchool} onChange={handleInputChange} placeholder="School/Board" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 text-gray-800" />
-                    <input type="number" name="tenthPercentage" value={formData.tenthPercentage} onChange={handleInputChange} placeholder="Percentage" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 text-gray-800" />
-                    <input type="number" name="tenthYear" value={formData.tenthYear} onChange={handleInputChange} placeholder="Passing Year" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 text-gray-800" />
+                    <input type="text" name="tenthPercentage" value={formData.tenthPercentage} onChange={handleInputChange} placeholder="Percentage" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 text-gray-800" />
+                    <input type="text" name="tenthYear" value={formData.tenthYear} onChange={handleInputChange} placeholder="Passing Year" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-green-500 text-gray-800" />
                 </div>
             </div>
 
@@ -602,8 +631,8 @@ const submitForm = async () => {
                 <h3 className="text-lg font-semibold text-gray-800 mb-3">12th Standard</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input name="twelfthSchool" value={formData.twelfthSchool} onChange={handleInputChange} placeholder="School/Board" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 text-gray-800" />
-                    <input type="number" name="twelfthPercentage" value={formData.twelfthPercentage} onChange={handleInputChange} placeholder="Percentage" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 text-gray-800" />
-                    <input type="number" name="twelfthYear" value={formData.twelfthYear} onChange={handleInputChange} placeholder="Passing Year" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 text-gray-800" />
+                    <input type="text" name="twelfthPercentage" value={formData.twelfthPercentage} onChange={handleInputChange} placeholder="Percentage" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 text-gray-800" />
+                    <input type="text" name="twelfthYear" value={formData.twelfthYear} onChange={handleInputChange} placeholder="Passing Year" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 text-gray-800" />
                 </div>
             </div>
 
@@ -612,8 +641,8 @@ const submitForm = async () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     <input name="diplomaCourse" value={formData.diplomaCourse} onChange={handleInputChange} placeholder="Course" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-purple-500 text-gray-800" />
                     <input name="diplomaCollege" value={formData.diplomaCollege} onChange={handleInputChange} placeholder="College/University" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-purple-500 text-gray-800" />
-                    <input type="number" name="diplomaPercentage" value={formData.diplomaPercentage} onChange={handleInputChange} placeholder="Percentage" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-purple-500 text-gray-800" />
-                    <input type="number" name="diplomaYear" value={formData.diplomaYear} onChange={handleInputChange} placeholder="Passing Year" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-purple-500 text-gray-800" />
+                    <input type="text" name="diplomaPercentage" value={formData.diplomaPercentage} onChange={handleInputChange} placeholder="Percentage" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-purple-500 text-gray-800" />
+                    <input type="text" name="diplomaYear" value={formData.diplomaYear} onChange={handleInputChange} placeholder="Passing Year" className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-purple-500 text-gray-800" />
                 </div>
             </div>
 
