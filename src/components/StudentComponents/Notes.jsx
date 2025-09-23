@@ -1,6 +1,5 @@
-// src/components/Notes.js
 import React, { useState } from 'react';
-import { PenTool, Search, Star, Edit, XCircle } from 'lucide-react';
+import { PenTool, Search, Star, Edit, XCircle, Grid, List } from 'lucide-react';
 
 const DownloadableNotes = () => {
   const [notes, setNotes] = useState([
@@ -8,19 +7,39 @@ const DownloadableNotes = () => {
       id: 1,
       title: "Advanced Calculus - Derivatives and Applications",
       subject: "Mathematics",
-      content: "Key formulas and concepts for derivatives...",
-      date: "2025-09-18",
+      teacher: "Unknown",
+      description: "Key formulas and concepts for derivatives...",
+      uploadDate: "2025-09-18",
       tags: ["math", "calculus", "derivatives"],
-      pinned: true
+      pinned: true,
+      fileSize: "3.5 MB",
+      fileType: "PDF",
+      downloads: 200,
+      rating: 4.3,
+      difficulty: "Advanced",
+      pages: 50,
+      thumbnail: "📘",
+      liked: false,
+      preview: "Explore key calculus concepts with practical applications."
     },
     {
       id: 2,
       title: "Organic Chemistry Reaction Mechanisms",
       subject: "Chemistry",
-      content: "Important organic chemistry reactions and mechanisms...",
-      date: "2025-09-17",
+      teacher: "Unknown",
+      description: "Important organic chemistry reactions and mechanisms...",
+      uploadDate: "2025-09-17",
       tags: ["chemistry", "organic", "reactions"],
-      pinned: false
+      pinned: false,
+      fileSize: "4.0 MB",
+      fileType: "PDF",
+      downloads: 300,
+      rating: 4.4,
+      difficulty: "Intermediate",
+      pages: 60,
+      thumbnail: "🧪",
+      liked: false,
+      preview: "Learn organic chemistry reactions with detailed mechanisms."
     },
     {
       id: 3,
@@ -80,10 +99,20 @@ const DownloadableNotes = () => {
       id: 6,
       title: "Thermodynamics Laws and Applications",
       subject: "Physics",
-      content: "Three fundamental laws of motion by Isaac Newton...",
-      date: "2025-09-16",
-      tags: ["physics", "mechanics", "laws"],
-      pinned: true
+      teacher: "Unknown",
+      description: "Three fundamental laws of thermodynamics and their applications...",
+      uploadDate: "2025-09-16",
+      tags: ["physics", "thermodynamics", "laws"],
+      pinned: true,
+      fileSize: "3.8 MB",
+      fileType: "PDF",
+      downloads: 250,
+      rating: 4.2,
+      difficulty: "Advanced",
+      pages: 65,
+      thumbnail: "🔥",
+      liked: false,
+      preview: "Understand thermodynamics with practical examples and applications."
     }
   ]);
 
@@ -92,34 +121,40 @@ const DownloadableNotes = () => {
   const [selectedDifficulty, setSelectedDifficulty] = useState("All");
   const [sortBy, setSortBy] = useState("newest");
   const [viewMode, setViewMode] = useState("grid");
-  const [showFilters, setShowFilters] = useState(false);
+  const [showNewNote, setShowNewNote] = useState(false);
+  const [newNote, setNewNote] = useState({
+    title: "",
+    subject: "",
+    description: "",
+    tags: ""
+  });
 
   const subjects = ["All", "Mathematics", "Physics", "Chemistry", "Biology"];
+  const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
 
   const filteredNotes = notes
     .filter(note => 
       (selectedSubject === "All" || note.subject === selectedSubject) &&
       (selectedDifficulty === "All" || note.difficulty === selectedDifficulty) &&
       (note.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       note.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       note.teacher.toLowerCase().includes(searchTerm.toLowerCase()) ||
-       note.tags.some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())))
+       (note.description || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+       (note.teacher || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+       (note.tags || []).some(tag => tag.toLowerCase().includes(searchTerm.toLowerCase())))
     )
     .sort((a, b) => {
       switch(sortBy) {
         case "newest": return new Date(b.uploadDate) - new Date(a.uploadDate);
         case "oldest": return new Date(a.uploadDate) - new Date(b.uploadDate);
-        case "popular": return b.downloads - a.downloads;
-        case "rating": return b.rating - a.rating;
+        case "popular": return (b.downloads || 0) - (a.downloads || 0);
+        case "rating": return (b.rating || 0) - (a.rating || 0);
         default: return 0;
       }
     });
 
   const handleDownload = (noteId) => {
     setNotes(notes.map(note => 
-      note.id === noteId ? { ...note, downloads: note.downloads + 1 } : note
+      note.id === noteId ? { ...note, downloads: (note.downloads || 0) + 1 } : note
     ));
-    // Simulate download
     console.log(`Downloading note ${noteId}`);
   };
 
@@ -127,6 +162,37 @@ const DownloadableNotes = () => {
     setNotes(notes.map(note => 
       note.id === noteId ? { ...note, liked: !note.liked } : note
     ));
+  };
+
+  const togglePin = (noteId) => {
+    setNotes(notes.map(note => 
+      note.id === noteId ? { ...note, pinned: !note.pinned } : note
+    ));
+  };
+
+  const handleAddNote = () => {
+    const newNoteData = {
+      id: notes.length + 1,
+      title: newNote.title,
+      subject: newNote.subject,
+      teacher: "Unknown",
+      description: newNote.description,
+      uploadDate: new Date().toISOString().split('T')[0],
+      tags: newNote.tags.split(',').map(tag => tag.trim()).filter(tag => tag),
+      pinned: false,
+      fileSize: "1.0 MB",
+      fileType: "PDF",
+      downloads: 0,
+      rating: 0,
+      difficulty: "Beginner",
+      pages: 1,
+      thumbnail: "📝",
+      liked: false,
+      preview: newNote.description.substring(0, 100) + "..."
+    };
+    setNotes([...notes, newNoteData]);
+    setNewNote({ title: "", subject: "", description: "", tags: "" });
+    setShowNewNote(false);
   };
 
   const getDifficultyColor = (difficulty) => {
@@ -179,7 +245,7 @@ const DownloadableNotes = () => {
                 />
               </div>
             </div>
-            <div>
+            <div className="flex gap-4">
               <select 
                 value={selectedSubject}
                 onChange={(e) => setSelectedSubject(e.target.value)}
@@ -192,7 +258,7 @@ const DownloadableNotes = () => {
               <select 
                 value={selectedDifficulty}
                 onChange={(e) => setSelectedDifficulty(e.target.value)}
-                className="px-4 py-3 bg-white/80 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 {difficulties.map(difficulty => (
                   <option key={difficulty} value={difficulty}>{difficulty}</option>
@@ -201,7 +267,7 @@ const DownloadableNotes = () => {
               <select 
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-3 bg-white/80 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="newest">Newest First</option>
                 <option value="oldest">Oldest First</option>
@@ -231,43 +297,56 @@ const DownloadableNotes = () => {
           {filteredNotes
             .sort((a, b) => b.pinned - a.pinned)
             .map((note) => (
-            <div key={note.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-              <div className="flex justify-between items-start mb-3">
-                <h3 className="text-lg font-semibold text-gray-800">{note.title}</h3>
-                <button
-                  onClick={() => togglePin(note.id)}
-                  className={`p-1 rounded ${note.pinned ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500'}`}
-                >
-                  <Star className={`w-4 h-4 ${note.pinned ? 'fill-current' : ''}`} />
-                </button>
-              </div>
-              
-              <div className="mb-3">
-                <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
-                  {note.subject}
-                </span>
-              </div>
-              
-              <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                {note.content.substring(0, 150)}...
-              </p>
-              
-              <div className="flex flex-wrap gap-1 mb-3">
-                {note.tags.map((tag, index) => (
-                  <span key={index} className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
-                    #{tag}
+              <div key={note.id} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
+                <div className="flex justify-between items-start mb-3">
+                  <h3 className="text-lg font-semibold text-gray-800">{note.title}</h3>
+                  <button
+                    onClick={() => togglePin(note.id)}
+                    className={`p-1 rounded ${note.pinned ? 'text-yellow-500' : 'text-gray-400 hover:text-yellow-500'}`}
+                  >
+                    <Star className={`w-4 h-4 ${note.pinned ? 'fill-current' : ''}`} />
+                  </button>
+                </div>
+                
+                <div className="mb-3">
+                  <span className="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">
+                    {note.subject}
                   </span>
-                ))}
+                  {note.difficulty && (
+                    <span className={`inline-block ${getDifficultyColor(note.difficulty)} text-xs px-2 py-1 rounded-full ml-2`}>
+                      {note.difficulty}
+                    </span>
+                  )}
+                </div>
+                
+                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                  {note.description.substring(0, 150)}...
+                </p>
+                
+                <div className="flex flex-wrap gap-1 mb-3">
+                  {note.tags.map((tag, index) => (
+                    <span key={index} className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+                
+                <div className="flex justify-between items-center text-xs text-gray-500">
+                  <span>{formatDate(note.uploadDate)}</span>
+                  <div className="flex gap-2">
+                    <button onClick={() => handleDownload(note.id)} className="text-blue-600 hover:text-blue-800">
+                      Download ({note.downloads})
+                    </button>
+                    <button onClick={() => toggleLike(note.id)} className={`text-${note.liked ? 'red' : 'gray'}-600 hover:text-${note.liked ? 'red' : 'gray'}-800`}>
+                      {note.liked ? 'Unlike' : 'Like'}
+                    </button>
+                    <button className="text-blue-600 hover:text-blue-800">
+                      <Edit className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
               </div>
-              
-              <div className="flex justify-between items-center text-xs text-gray-500">
-                <span>{note.date}</span>
-                <button className="text-blue-600 hover:text-blue-800">
-                  <Edit className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
 
         {/* New Note Modal */}
@@ -312,13 +391,13 @@ const DownloadableNotes = () => {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Content</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                     <textarea
-                      value={newNote.content}
-                      onChange={(e) => setNewNote({...newNote, content: e.target.value})}
+                      value={newNote.description}
+                      onChange={(e) => setNewNote({...newNote, description: e.target.value})}
                       rows={8}
                       className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Write your note content here..."
+                      placeholder="Write your note description here..."
                     />
                   </div>
                   
