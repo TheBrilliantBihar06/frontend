@@ -112,7 +112,7 @@ const Navbar = () => {
               <div className="relative profile-dropdown">
                 <button
                   onClick={toggleProfile}
-                  className="w-8 h-8 lg:w-10 lg:h-10 rounded-full overflow-hidden border-2 border-gray-600 hover:border-gray-400 transition-colors duration-200"
+                  className="w-8 h-8 lg:w-10 lg:h-10 rounded-full overflow-hidden border-2 border-gray-600 hover:border-orange-400 hover:shadow-lg hover:shadow-orange-500/25 transition-all duration-300 transform hover:scale-110"
                 >
                   {profileImage ? (
                     <img
@@ -138,7 +138,7 @@ const Navbar = () => {
                             alt="Profile"
                             className="w-16 h-16 rounded-full object-cover border-2 border-gray-300"
                           />
-                          <label className="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-1 cursor-pointer hover:bg-blue-700 transition-colors shadow-md">
+                          <label className="absolute bottom-0 right-0 bg-orange-600 text-white rounded-full p-1 cursor-pointer hover:bg-orange-700 transition-colors shadow-md">
                             <Camera className="w-3 h-3" />
                             <input
                               type="file"
@@ -158,7 +158,7 @@ const Navbar = () => {
                       <div className="pt-2 border-t border-gray-200">
                         <Link
                           to={getDashboardLink()}
-                          className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-md transition-colors duration-200"
+                          className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-orange-600 hover:bg-orange-50 hover:text-orange-700 rounded-md transition-all duration-200 hover:shadow-md"
                           onClick={() => setIsProfileOpen(false)}
                         >
                           {user?.role === "student" ? "Student Dashboard" : "Teacher Dashboard"}
@@ -197,9 +197,11 @@ const Navbar = () => {
               <div className="flex items-center space-x-2 lg:space-x-3">
                 <Link
                   to="/login"
-                  className="text-orange-500 hover:text-orange-600 hover:bg-orange-100 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors duration-200"
+                  className="relative px-6 py-2 text-sm lg:text-base font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 rounded-lg shadow-lg hover:from-orange-600 hover:to-orange-700 hover:shadow-xl hover:shadow-orange-500/25 transform hover:scale-105 transition-all duration-300 overflow-hidden group"
                 >
-                  Login
+                  <span className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                  <span className="relative z-10">Login</span>
+                  <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out"></div>
                 </Link>
               </div>
             )}
@@ -209,7 +211,7 @@ const Navbar = () => {
           <div className="md:hidden">
             <button
               onClick={toggleMenu}
-              className="text-gray-300 hover:text-white hover:bg-gray-700 p-2 rounded-md"
+              className="text-gray-300 hover:text-white hover:bg-gray-700 p-2 rounded-md transition-colors duration-200"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -249,7 +251,7 @@ const Navbar = () => {
                     {user.role !== "admin" ? (
                       <Link
                         to={getDashboardLink()}
-                        className="block px-3 py-2 text-blue-400 hover:text-blue-300 hover:bg-gray-800 rounded-md text-base font-medium"
+                        className="block px-3 py-2 text-orange-400 hover:text-orange-300 hover:bg-gray-800 rounded-md text-base font-medium transition-colors duration-200"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {user.role === "student" ? "Student Dashboard" : "Teacher Dashboard"}
@@ -257,7 +259,7 @@ const Navbar = () => {
                     ) : (
                       <Link
                         to="/admin-dashboard"
-                        className="block px-3 py-2 text-blue-400 hover:text-blue-300 hover:bg-gray-800 rounded-md text-base font-medium"
+                        className="block px-3 py-2 text-orange-400 hover:text-orange-300 hover:bg-gray-800 rounded-md text-base font-medium transition-colors duration-200"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         Admin Dashboard
@@ -275,7 +277,7 @@ const Navbar = () => {
                   <div className="px-3 space-y-2">
                     <Link
                       to="/login"
-                      className="block text-orange-500 hover:text-orange-600 hover:bg-orange-100 py-2 text-base font-medium transition-colors duration-200"
+                      className="block w-full text-center px-4 py-3 text-white font-semibold bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Login
