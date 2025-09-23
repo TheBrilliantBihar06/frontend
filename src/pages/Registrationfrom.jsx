@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
@@ -279,13 +278,13 @@ const Form = () => {
         data.append("file", file);
         data.append("upload_preset", UPLOAD_PRESET);
         data.append("resource_type", "auto");
-        data.append("folder", fileType === "photo" ? "applications/photos" : "applications/docs");
+        data.append("folder", fileType === "photo" ? "brilliant_bihar/registration/photos" : "brilliant_bihar/registration/docs");
 
         try {
           const res = await axios.post(CLOUDINARY_URL, data, {
             headers: { "Content-Type": "multipart/form-data" },
           });
-          console.log(`${fileType} uploaded to folder ${fileType === "photo" ? "applications/photos" : "applications/docs"}:`, {
+          console.log(`${fileType} uploaded to folder ${fileType === "photo" ? "brilliant_bihar/registration/photos" : "brilliant_bihar/registration/docs"}:`, {
             secure_url: res.data.secure_url,
             public_id: res.data.public_id,
           });
