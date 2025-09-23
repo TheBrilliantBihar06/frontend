@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  BookOpen, 
-  X, 
-  Save, 
-  Users, 
-  Plus, 
-  Trash2, 
-  Edit, 
+import {
+  BookOpen,
+  X,
+  Save,
+  Users,
+  Plus,
+  Trash2,
+  Edit,
   Upload,
   Menu,
   LayoutDashboard,
@@ -45,9 +45,8 @@ const AddCourse = () => {
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  
+
   const navigate = (path) => {
-    // Simple navigation function to replace useNavigate
     window.location.href = path;
   };
   const currentUser = JSON.parse(localStorage.getItem('user'));
@@ -66,13 +65,13 @@ const AddCourse = () => {
           'Content-Type': 'application/json'
         }
       });
-      
+
       const data = await res.json();
-      
+
       if (!res.ok) {
         throw new Error(data.message || 'Failed to fetch courses');
       }
-      
+
       setCourses(data.courses);
       setLoading(false);
     } catch (err) {
@@ -105,10 +104,10 @@ const AddCourse = () => {
     e.preventDefault();
     setFormError('');
     setSubmitting(true);
-    
+
     try {
       const token = localStorage.getItem('token');
-      
+
       const courseData = new FormData();
       courseData.append('title', formData.title);
       courseData.append('description', formData.description);
@@ -116,11 +115,11 @@ const AddCourse = () => {
       courseData.append('level', formData.level);
       courseData.append('category', formData.category);
       courseData.append('teacher', formData.teacher);
-      
+
       if (imageFile) {
         courseData.append('image', imageFile);
       }
-      
+
       const res = await fetch('http://localhost:5000/api/courses', {
         method: 'POST',
         headers: {
@@ -128,13 +127,13 @@ const AddCourse = () => {
         },
         body: courseData
       });
-      
+
       const data = await res.json();
-      
+
       if (!res.ok) {
         throw new Error(data.message || 'Failed to create course');
       }
-      
+
       setFormData({
         title: '',
         description: '',
@@ -164,7 +163,7 @@ const AddCourse = () => {
       category: course.category,
       teacher: course.teacher,
     });
-    setImagePreview(course.image ? `http://localhost:5000${course.image}` : '');
+    setImagePreview(course.image || ''); // Use Cloudinary URL directly
     setShowEditForm(true);
   };
 
@@ -172,10 +171,10 @@ const AddCourse = () => {
     e.preventDefault();
     setFormError('');
     setSubmitting(true);
-    
+
     try {
       const token = localStorage.getItem('token');
-      
+
       const courseData = new FormData();
       courseData.append('title', formData.title);
       courseData.append('description', formData.description);
@@ -183,11 +182,11 @@ const AddCourse = () => {
       courseData.append('level', formData.level);
       courseData.append('category', formData.category);
       courseData.append('teacher', formData.teacher);
-      
+
       if (imageFile) {
         courseData.append('image', imageFile);
       }
-      
+
       const res = await fetch(`http://localhost:5000/api/courses/${editingCourse._id}`, {
         method: 'PUT',
         headers: {
@@ -195,13 +194,13 @@ const AddCourse = () => {
         },
         body: courseData
       });
-      
+
       const data = await res.json();
-      
+
       if (!res.ok) {
         throw new Error(data.message || 'Failed to update course');
       }
-      
+
       setFormData({
         title: '',
         description: '',
@@ -250,13 +249,13 @@ const AddCourse = () => {
             'Content-Type': 'application/json'
           }
         });
-        
+
         const data = await res.json();
-        
+
         if (!res.ok) {
           throw new Error(data.message || 'Failed to delete course');
         }
-        
+
         fetchCourses();
       } catch (err) {
         setError(err.message);
@@ -284,12 +283,12 @@ const AddCourse = () => {
       <div className="flex flex-1">
         {/* Mobile overlay */}
         {sidebarOpen && (
-          <div 
+          <div
             className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
         )}
-        
+
         {/* Sidebar */}
         <div className={`fixed lg:static inset-y-0 left-0 z-30 w-64 bg-gradient-to-b from-indigo-900 to-purple-900 text-white transform ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -301,14 +300,14 @@ const AddCourse = () => {
               </h2>
               <p className="text-indigo-300 text-sm">Course Management</p>
             </div>
-            <button 
+            <button
               onClick={() => setSidebarOpen(false)}
               className="lg:hidden text-white hover:text-indigo-200"
             >
               <X size={24} />
             </button>
           </div>
-          
+
           <nav className="mt-8 px-4 space-y-2">
             <a href="/admin-dashboard" className="flex items-center p-3 text-indigo-200 hover:bg-indigo-800 hover:text-white rounded-xl transition-all">
               <LayoutDashboard className="mr-3" size={20} />
@@ -331,7 +330,7 @@ const AddCourse = () => {
               <span>Academic Calendar</span>
             </a>
           </nav>
-          
+
           <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-indigo-700">
             <div className="mb-4 p-3 bg-indigo-800 rounded-xl">
               <div className="flex items-center mb-2">
@@ -344,7 +343,7 @@ const AddCourse = () => {
                 </div>
               </div>
             </div>
-            <button 
+            <button
               onClick={handleLogout}
               className="flex items-center w-full p-3 text-indigo-200 hover:bg-red-600 hover:text-white rounded-xl transition-all"
             >
@@ -353,14 +352,14 @@ const AddCourse = () => {
             </button>
           </div>
         </div>
-        
+
         {/* Main Content */}
         <main className="flex-1 flex flex-col min-w-0">
           {/* Top Header */}
           <div className="bg-white shadow-sm border-b p-4 lg:p-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-4">
-                <button 
+                <button
                   onClick={() => setSidebarOpen(true)}
                   className="lg:hidden p-2 rounded-lg hover:bg-gray-100"
                 >
@@ -371,9 +370,9 @@ const AddCourse = () => {
                   <p className="text-gray-600 text-sm">Create and manage educational courses</p>
                 </div>
               </div>
-              
+
               <div className="flex items-center space-x-4">
-                <button 
+                <button
                   onClick={() => setShowAddForm(true)}
                   className="flex items-center gap-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 px-4 py-2 rounded-xl font-medium transition-colors shadow-lg"
                 >
@@ -383,7 +382,7 @@ const AddCourse = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="flex-1 p-4 lg:p-8 overflow-auto">
             {/* Statistics Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
@@ -398,7 +397,7 @@ const AddCourse = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-green-100">
                 <div className="flex items-center justify-between">
                   <div>
@@ -412,7 +411,7 @@ const AddCourse = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-yellow-100">
                 <div className="flex items-center justify-between">
                   <div>
@@ -426,7 +425,7 @@ const AddCourse = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow border border-red-100">
                 <div className="flex items-center justify-between">
                   <div>
@@ -441,7 +440,7 @@ const AddCourse = () => {
                 </div>
               </div>
             </div>
-            
+
             {/* Course Management Section */}
             <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100">
               <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6">
@@ -452,7 +451,7 @@ const AddCourse = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Search and Filter Bar */}
               <div className="p-6 border-b border-gray-100 bg-gray-50">
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -480,13 +479,13 @@ const AddCourse = () => {
                   </div>
                 </div>
               </div>
-              
+
               {error && (
                 <div className="p-4 bg-red-50 text-red-700 border-l-4 border-red-400">
                   {error}
                 </div>
               )}
-              
+
               {/* Courses Display */}
               <div className="p-6">
                 {loading ? (
@@ -510,10 +509,13 @@ const AddCourse = () => {
                       <div key={course._id} className="bg-white border border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden">
                         <div className="relative h-48 bg-gradient-to-br from-blue-100 to-indigo-100">
                           {course.image ? (
-                            <img 
-                              src={`http://localhost:5000${course.image}`} 
-                              alt={course.title} 
+                            <img
+                              src={course.image}
+                              alt={course.title}
                               className="w-full h-full object-cover"
+                              onError={(e) => {
+                                e.target.src = '/placeholder-image.jpg'; // Fallback image
+                              }}
                             />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center">
@@ -522,21 +524,21 @@ const AddCourse = () => {
                           )}
                           <div className="absolute top-4 right-4">
                             <span className={`px-3 py-1 text-xs font-bold rounded-full ${
-                              course.level === 'Beginner' 
-                                ? 'bg-green-100 text-green-800' 
-                                : course.level === 'Intermediate' 
-                                  ? 'bg-yellow-100 text-yellow-800' 
+                              course.level === 'Beginner'
+                                ? 'bg-green-100 text-green-800'
+                                : course.level === 'Intermediate'
+                                  ? 'bg-yellow-100 text-yellow-800'
                                   : 'bg-red-100 text-red-800'
                             }`}>
                               {course.level}
                             </span>
                           </div>
                         </div>
-                        
+
                         <div className="p-6">
                           <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2">{course.title}</h3>
                           <p className="text-gray-600 text-sm mb-4 line-clamp-3">{course.description}</p>
-                          
+
                           <div className="space-y-2 mb-4">
                             <div className="flex items-center text-sm text-gray-500">
                               <User className="w-4 h-4 mr-2" />
@@ -551,16 +553,16 @@ const AddCourse = () => {
                               {course.category}
                             </div>
                           </div>
-                          
+
                           <div className="flex justify-between items-center pt-4 border-t border-gray-100">
-                            <button 
+                            <button
                               onClick={() => handleEditCourse(course)}
                               className="flex items-center gap-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-3 py-2 rounded-lg transition-colors"
                             >
                               <Edit size={16} />
                               <span className="text-sm font-medium">Edit</span>
                             </button>
-                            <button 
+                            <button
                               onClick={() => handleDeleteCourse(course._id)}
                               className="flex items-center gap-2 text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-2 rounded-lg transition-colors"
                             >
@@ -578,27 +580,27 @@ const AddCourse = () => {
           </div>
         </main>
       </div>
-      
+
       {/* Add Course Modal */}
       {showAddForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex justify-between items-center rounded-t-2xl">
               <h2 className="text-2xl font-bold text-white">Create New Course</h2>
-              <button 
+              <button
                 onClick={handleCancel}
                 className="text-white hover:text-indigo-200 p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
               >
                 <X size={24} />
               </button>
             </div>
-            
+
             {formError && (
               <div className="mx-6 mt-4 p-4 bg-red-50 text-red-700 rounded-xl border border-red-200">
                 {formError}
               </div>
             )}
-            
+
             <div className="p-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-6">
@@ -614,7 +616,7 @@ const AddCourse = () => {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
                     <input
@@ -627,7 +629,7 @@ const AddCourse = () => {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Teacher</label>
                     <input
@@ -640,7 +642,7 @@ const AddCourse = () => {
                       required
                     />
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">Duration (weeks)</label>
@@ -654,7 +656,7 @@ const AddCourse = () => {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">Level</label>
                       <select
@@ -670,7 +672,7 @@ const AddCourse = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
@@ -684,7 +686,7 @@ const AddCourse = () => {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Course Image</label>
                     <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-indigo-400 transition-colors">
@@ -698,7 +700,14 @@ const AddCourse = () => {
                       <label htmlFor="course-image" className="cursor-pointer">
                         {imagePreview ? (
                           <div className="space-y-4">
-                            <img src={imagePreview} alt="Course preview" className="h-32 w-32 object-cover rounded-xl mx-auto shadow-lg" />
+                            <img
+                              src={imagePreview}
+                              alt="Course preview"
+                              className="h-32 w-32 object-cover rounded-xl mx-auto shadow-lg"
+                              onError={(e) => {
+                                e.target.src = '/placeholder-image.jpg'; // Fallback image
+                              }}
+                            />
                             <p className="text-sm text-gray-600">Click to change image</p>
                           </div>
                         ) : (
@@ -715,7 +724,7 @@ const AddCourse = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t border-gray-100">
                 <button
                   type="button"
@@ -737,27 +746,27 @@ const AddCourse = () => {
           </div>
         </div>
       )}
-      
+
       {/* Edit Course Modal */}
       {showEditForm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
             <div className="sticky top-0 bg-gradient-to-r from-indigo-600 to-purple-600 p-6 flex justify-between items-center rounded-t-2xl">
               <h2 className="text-2xl font-bold text-white">Edit Course</h2>
-              <button 
+              <button
                 onClick={handleCancel}
                 className="text-white hover:text-indigo-200 p-2 hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
               >
                 <X size={24} />
               </button>
             </div>
-            
+
             {formError && (
               <div className="mx-6 mt-4 p-4 bg-red-50 text-red-700 rounded-xl border border-red-200">
                 {formError}
               </div>
             )}
-            
+
             <div className="p-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div className="space-y-6">
@@ -773,7 +782,7 @@ const AddCourse = () => {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Category</label>
                     <input
@@ -786,7 +795,7 @@ const AddCourse = () => {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Teacher</label>
                     <input
@@ -799,7 +808,7 @@ const AddCourse = () => {
                       required
                     />
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">Duration (weeks)</label>
@@ -813,7 +822,7 @@ const AddCourse = () => {
                         required
                       />
                     </div>
-                    
+
                     <div>
                       <label className="block text-sm font-semibold text-gray-700 mb-2">Level</label>
                       <select
@@ -829,7 +838,7 @@ const AddCourse = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="space-y-6">
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
@@ -843,7 +852,7 @@ const AddCourse = () => {
                       required
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Course Image</label>
                     <div className="border-2 border-dashed border-gray-300 rounded-xl p-6 text-center hover:border-indigo-400 transition-colors">
@@ -857,7 +866,14 @@ const AddCourse = () => {
                       <label htmlFor="edit-course-image" className="cursor-pointer">
                         {imagePreview ? (
                           <div className="space-y-4">
-                            <img src={imagePreview} alt="Course preview" className="h-32 w-32 object-cover rounded-xl mx-auto shadow-lg" />
+                            <img
+                              src={imagePreview}
+                              alt="Course preview"
+                              className="h-32 w-32 object-cover rounded-xl mx-auto shadow-lg"
+                              onError={(e) => {
+                                e.target.src = '/placeholder-image.jpg'; // Fallback image
+                              }}
+                            />
                             <p className="text-sm text-gray-600">Click to change image</p>
                           </div>
                         ) : (
@@ -874,7 +890,7 @@ const AddCourse = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className="flex flex-col sm:flex-row justify-end gap-4 pt-6 border-t border-gray-100">
                 <button
                   type="button"
