@@ -22,12 +22,18 @@ const Navbar = () => {
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
-  const toggleProfile = () => setIsProfileOpen(!isProfileOpen);
+  const toggleProfile = () => {
+    if (user?.role === "admin") {
+      navigate("/admin-dashboard");
+    } else {
+      setIsProfileOpen(!isProfileOpen);
+    }
+  };
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     setUser(null);
-    setIsProfileOpen(false); // Close profile dropdown
+    setIsProfileOpen(false);
     navigate("/login");
   };
 
@@ -38,8 +44,6 @@ const Navbar = () => {
       reader.onload = (e) => {
         const newImageUrl = e.target.result;
         setProfileImage(newImageUrl);
-        
-        // Update user data in localStorage with new profile image
         const updatedUser = { ...user, profileImage: newImageUrl };
         localStorage.setItem("user", JSON.stringify(updatedUser));
         setUser(updatedUser);
@@ -48,17 +52,15 @@ const Navbar = () => {
     }
   };
 
-  // Close profile dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (isProfileOpen && !event.target.closest('.profile-dropdown')) {
+      if (isProfileOpen && !event.target.closest(".profile-dropdown")) {
         setIsProfileOpen(false);
       }
     };
-
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isProfileOpen]);
 
@@ -70,6 +72,12 @@ const Navbar = () => {
     { label: "Events", href: "/events" },
     { label: "Contact Us", href: "/contact" },
   ];
+
+  const getDashboardLink = () => {
+    if (user?.role === "student") return "/student-dashboard";
+    if (user?.role === "teacher") return "/teacher-dashboard";
+    return "#";
+  };
 
   return (
     <nav className="bg-gray-900 text-white sticky top-0 z-50 shadow-md">
@@ -119,7 +127,7 @@ const Navbar = () => {
                   )}
                 </button>
 
-                {isProfileOpen && (
+                {isProfileOpen && user?.role !== "admin" && (
                   <div className="absolute right-0 mt-2 w-80 bg-white text-gray-900 rounded-lg shadow-xl border border-gray-200 overflow-hidden z-50">
                     <div className="p-4 space-y-4">
                       {/* Profile Header */}
@@ -144,6 +152,17 @@ const Navbar = () => {
                           <p className="text-lg font-semibold text-gray-900">{user.name}</p>
                           <p className="text-sm text-gray-600">{user.email}</p>
                         </div>
+                      </div>
+
+                      {/* Dashboard Link */}
+                      <div className="pt-2 border-t border-gray-200">
+                        <Link
+                          to={getDashboardLink()}
+                          className="w-full flex items-center justify-center px-4 py-2 text-sm font-medium text-blue-600 hover:bg-blue-50 rounded-md transition-colors duration-200"
+                          onClick={() => setIsProfileOpen(false)}
+                        >
+                          {user?.role === "student" ? "Student Dashboard" : "Teacher Dashboard"}
+                        </Link>
                       </div>
 
                       {/* User Details */}
@@ -178,15 +197,9 @@ const Navbar = () => {
               <div className="flex items-center space-x-2 lg:space-x-3">
                 <Link
                   to="/login"
-                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors"
+                  className="text-orange-500 hover:text-orange-600 hover:bg-orange-100 px-3 py-2 rounded-md text-sm lg:text-base font-medium transition-colors duration-200"
                 >
                   Login
-                </Link>
-                <Link
-                  to="/signup"
-                  className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm lg:text-base font-medium transition-colors"
-                >
-                  Signup
                 </Link>
               </div>
             )}
@@ -217,7 +230,7 @@ const Navbar = () => {
                   {item.label}
                 </Link>
               ))}
-              
+
               {/* Mobile Auth */}
               <div className="pt-4 border-t border-gray-700 mt-4">
                 {user ? (
@@ -233,6 +246,23 @@ const Navbar = () => {
                         <p className="text-gray-400 text-sm">{user.email}</p>
                       </div>
                     </div>
+                    {user.role !== "admin" ? (
+                      <Link
+                        to={getDashboardLink()}
+                        className="block px-3 py-2 text-blue-400 hover:text-blue-300 hover:bg-gray-800 rounded-md text-base font-medium"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {user.role === "student" ? "Student Dashboard" : "Teacher Dashboard"}
+                      </Link>
+                    ) : (
+                      <Link
+                        to="/admin-dashboard"
+                        className="block px-3 py-2 text-blue-400 hover:text-blue-300 hover:bg-gray-800 rounded-md text-base font-medium"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Admin Dashboard
+                      </Link>
+                    )}
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center justify-center px-3 py-2 text-red-400 hover:text-red-300 hover:bg-gray-800 rounded-md"
@@ -242,20 +272,13 @@ const Navbar = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="space-y-2 px-3">
+                  <div className="px-3 space-y-2">
                     <Link
                       to="/login"
-                      className="block text-gray-300 hover:text-white py-2 text-base font-medium"
+                      className="block text-orange-500 hover:text-orange-600 hover:bg-orange-100 py-2 text-base font-medium transition-colors duration-200"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Login
-                    </Link>
-                    <Link
-                      to="/signup"
-                      className="block bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-base font-medium text-center"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Signup
                     </Link>
                   </div>
                 )}
