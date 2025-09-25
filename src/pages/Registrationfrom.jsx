@@ -50,8 +50,8 @@ const Form = () => {
     aadhaar: '',
     address: '',
     // Education checkboxes
-    ssc: false,
-    matric: false,
+    tenth: false,
+    twelfth: false,
     graduate: false,
     examinationCenter: '',
     photo: null,
@@ -120,7 +120,7 @@ const Form = () => {
         setOtpMessage({ text: '', type: '' });
     }
     
-    if (type === 'checkbox' && ['ssc', 'matric', 'graduate'].includes(name)) {
+    if (type === 'checkbox' && ['tenth', 'twelfth', 'graduate'].includes(name)) {
       setFormData(prev => ({
         ...prev,
         [name]: checked
@@ -183,7 +183,7 @@ const Form = () => {
     if (!formData.address.trim()) newErrors.address = 'Address is required';
 
     // Education validation (at least one checkbox should be selected)
-    if (!formData.ssc && !formData.matric && !formData.graduate) {
+    if (!formData.tenth && !formData.twelfth && !formData.graduate) {
       newErrors.education = 'Please select at least one education level';
     }
 
@@ -230,7 +230,7 @@ const Form = () => {
     try {
       await axios.post('http://localhost:5000/api/otp/verify', { email: formData.email, otp });
       setIsEmailVerified(true);
-      setOtpMessage({ text: 'Email verified successfully! 🎉', type: 'success' });
+      setOtpMessage({ text: 'Email verified successfully!', type: 'success' });
       // Clear email error if it was set by validation before
       if (errors.email) {
         setErrors(prev => ({...prev, email: ''}));
@@ -361,7 +361,7 @@ const Form = () => {
           </div>
           <div className="absolute -top-2 -right-2 w-8 h-8 bg-yellow-400 rounded-full animate-bounce"></div>
         </div>
-        <h2 className="text-4xl font-bold text-black mb-4">Application Submitted Successfully! 🎉</h2>
+        <h2 className="text-4xl font-bold text-black mb-4">Application Submitted Successfully!</h2>
         <div className="bg-gray-50 rounded-xl p-4 mb-6 border-l-4 border-green-500">
           <p className="text-lg text-black mb-2">Your Application ID:</p>
           <p className="font-mono text-2xl font-bold text-green-600 bg-white px-4 py-2 rounded-lg shadow-inner">
@@ -374,7 +374,7 @@ const Form = () => {
           Please save your application ID for future reference and tracking.
         </p>
         <div className="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
-          <p className="text-black font-medium">📧 Check your email for further instructions and updates.</p>
+          <p className="text-black font-medium">Check your email for further instructions and updates.</p>
         </div>
       </div>
     );
@@ -393,7 +393,7 @@ const Form = () => {
       
       {/* Application ID Header */}
       <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-6 text-center">
-        <h2 className="text-2xl font-bold text-white mb-2">🏛️ Application Portal</h2>
+        <h2 className="text-2xl font-bold text-white mb-2">Application Portal</h2>
         <div className="bg-white bg-opacity-20 rounded-full px-6 py-2 inline-block">
           <p className="text-white">
             Application ID: <span className="font-mono font-bold text-green-300">{applicationId}</span>
@@ -476,9 +476,9 @@ const Form = () => {
                 </label>
                 <div className="flex space-x-6 mt-3">
                   {[
-                    { value: 'male', label: 'Male', icon: '👨' },
-                    { value: 'female', label: 'Female', icon: '👩' },
-                    { value: 'other', label: 'Other', icon: '👤' }
+                    { value: 'male', label: 'Male' },
+                    { value: 'female', label: 'Female' },
+                    { value: 'other', label: 'Other' }
                   ].map(gender => (
                     <label key={gender.value} className="flex items-center cursor-pointer group">
                       <input
@@ -490,7 +490,7 @@ const Form = () => {
                         className="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300"
                       />
                       <span className="ml-2 text-black group-hover:text-blue-600 transition-colors">
-                        <span className="mr-1">{gender.icon}</span>{gender.label}
+                        {gender.label}
                       </span>
                     </label>
                   ))}
@@ -515,7 +515,7 @@ const Form = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-semibold text-black mb-2">
-                  📱 Phone Number <span className="text-red-500">*</span>
+                  Phone Number <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="tel"
@@ -533,7 +533,7 @@ const Form = () => {
               
               <div>
                 <label className="block text-sm font-semibold text-black mb-2">
-                  📧 Email ID <span className="text-red-500">*</span>
+                  Email ID <span className="text-red-500">*</span>
                   {/* NEW: Show checkmark if verified */}
                   {isEmailVerified && <span className="text-green-500 font-bold ml-2">✓ Verified</span>}
                 </label>
@@ -568,7 +568,7 @@ const Form = () => {
                 {isOtpSent && !isEmailVerified && (
                   <div className="mt-4 bg-blue-50 p-4 rounded-xl border-2 border-blue-200">
                     <label className="block text-sm font-semibold text-black mb-3">
-                      🔐 Enter OTP sent to {formData.email}
+                      Enter OTP sent to {formData.email}
                     </label>
                     <div className="flex items-center space-x-3">
                       <input
@@ -610,7 +610,7 @@ const Form = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
               <div>
                 <label className="block text-sm font-semibold text-black mb-2">
-                  🆔 Aadhaar Number <span className="text-red-500">*</span>
+                  Aadhaar Number <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="text"
@@ -628,7 +628,7 @@ const Form = () => {
               
               <div>
                 <label className="block text-sm font-semibold text-black mb-2">
-                  🏠 Address <span className="text-red-500">*</span>
+                  Address <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   name="address"
@@ -659,13 +659,13 @@ const Form = () => {
           <div className="bg-purple-50 rounded-xl p-6 border border-purple-200">
             <div>
               <label className="block text-sm font-semibold text-black mb-4">
-                🎓 Education Levels <span className="text-red-500">*</span>
+                Education Levels <span className="text-red-500">*</span>
               </label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 {[
-                  { name: 'ssc', label: 'SSC', icon: '📚', desc: 'Secondary School Certificate' },
-                  { name: 'matric', label: 'Matric', icon: '🎒', desc: 'Matriculation' },
-                  { name: 'graduate', label: 'Graduate', icon: '🎓', desc: 'Graduation Degree' }
+                  { name: 'tenth', label: '10th', desc: '10th Standard' },
+                  { name: 'twelfth', label: '12th', desc: '12th Standard' },
+                  { name: 'graduate', label: 'Graduate', desc: 'Graduation Degree' }
                 ].map(edu => (
                   <label key={edu.name} className={`flex items-center p-4 border-2 rounded-xl cursor-pointer transition-all duration-200 hover:shadow-md ${
                     formData[edu.name] ? 'border-purple-500 bg-purple-100 shadow-sm' : 'border-gray-200 hover:border-purple-300'
@@ -679,7 +679,6 @@ const Form = () => {
                     />
                     <div className="ml-3">
                       <div className="flex items-center">
-                        <span className="text-2xl mr-2">{edu.icon}</span>
                         <span className="font-semibold text-black">{edu.label}</span>
                       </div>
                       <p className="text-xs text-black">{edu.desc}</p>
@@ -692,7 +691,7 @@ const Form = () => {
 
             <div className="mt-6">
               <label className="block text-sm font-semibold text-black mb-2">
-                🏢 Choose Examination Center <span className="text-red-500">*</span>
+                Choose Examination Center <span className="text-red-500">*</span>
               </label>
               <select
                 name="examinationCenter"
@@ -704,7 +703,7 @@ const Form = () => {
               >
                 <option value="">Select your preferred examination center</option>
                 {examinationCenters.map(center => (
-                  <option key={center.id} value={center.id}>📍 {center.name}, {center.city}</option>
+                  <option key={center.id} value={center.id}>{center.name}, {center.city}</option>
                 ))}
               </select>
               {errors.examinationCenter && <p className="text-red-500 text-sm mt-1 flex items-center"><span className="mr-1">⚠️</span>{errors.examinationCenter}</p>}
@@ -725,7 +724,7 @@ const Form = () => {
           <div className="bg-orange-50 rounded-xl p-6 border border-orange-200">
             <div>
               <label className="block text-sm font-semibold text-black mb-4">
-                📷 Upload Photo <span className="text-red-500">*</span>
+                Upload Photo <span className="text-red-500">*</span>
               </label>
               <div className={`border-3 border-dashed rounded-2xl p-8 text-center transition-all duration-300 hover:border-orange-400 ${
                 formData.photo ? 'border-orange-400 bg-orange-100' : 'border-gray-300 hover:bg-orange-50'
@@ -744,7 +743,7 @@ const Form = () => {
                     </svg>
                   </div>
                   <p className="text-lg font-medium text-black">
-                    {formData.photo ? `📁 ${formData.photo.name}` : 'Click to upload or drag and drop'}
+                    {formData.photo ? `${formData.photo.name}` : 'Click to upload or drag and drop'}
                   </p>
                   <p className="text-sm text-black mt-1">PNG, JPG or JPEG • Max 2MB • Passport size recommended</p>
                 </div>
@@ -769,7 +768,7 @@ const Form = () => {
               <div className="mt-8 bg-gradient-to-br from-yellow-50 to-amber-50 border-2 border-yellow-300 rounded-2xl p-6 shadow-lg">
                 <div className="flex items-center space-x-3 mb-4">
                   <div className="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">💳</span>
+                    <span className="text-white font-bold text-lg">₹</span>
                   </div>
                   <h4 className="text-xl font-bold text-black">Payment Required</h4>
                 </div>
@@ -791,7 +790,7 @@ const Form = () => {
                         Processing Payment...
                       </div>
                     ) : (
-                      <>💳 Pay ₹{paymentAmount} Securely</>
+                      `Pay ₹${paymentAmount} Securely`
                     )}
                   </button>
                 ) : (
@@ -799,7 +798,6 @@ const Form = () => {
                     <p className="text-black font-bold text-lg flex items-center justify-center">
                       <span className="mr-2">✅</span>
                       Payment Successful!
-                      <span className="ml-2">🎉</span>
                     </p>
                   </div>
                 )}
@@ -821,14 +819,12 @@ const Form = () => {
                 Submitting Application...
               </div>
             ) : (
-              <>🚀 Submit Application</>
+              'Submit Application'
             )}
           </button>
           <div className="mt-4 p-4 bg-blue-50 rounded-xl border border-blue-200">
             <p className="text-sm text-black font-medium flex items-center justify-center">
-              <span className="mr-2">ℹ️</span>
               Please review all information before submitting. Once submitted, changes cannot be made.
-              <span className="ml-2">📋</span>
             </p>
           </div>
         </div>
@@ -837,9 +833,7 @@ const Form = () => {
       {/* Enhanced Footer */}
       <div className="bg-gradient-to-r from-gray-800 to-gray-900 p-6 text-center border-t border-gray-300">
         <div className="flex items-center justify-center space-x-2 mb-2">
-          <span className="text-2xl">🏛️</span>
           <p className="text-white font-semibold text-lg">Brilliant Bihar</p>
-          <span className="text-2xl">✨</span>
         </div>
         <p className="text-gray-300 text-sm">© 2024 Government of Bihar. All rights reserved.</p>
         <p className="text-gray-400 text-xs mt-1">Secure • Reliable • Trusted</p>
