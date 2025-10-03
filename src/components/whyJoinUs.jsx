@@ -1,228 +1,177 @@
+
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import {
+  Clock, GraduationCap, Sparkles, CheckCircle2, Award, TrendingUp,
+  FileText, Library, PenSquare, ClipboardList, BookCopy, MessageSquare,
+  Target, Mic, Users, BarChart3
+} from "lucide-react";
+
+const points = [
+  { 
+    icon: Clock, 
+    title: "24×7 Doubt Resolution", 
+    description: "Chahe raat ho ya din, aapke sawal hamesha hamari priority hai – Learn with the confidence that your queries will never have to wait." 
+  },
+  { 
+    icon: GraduationCap, 
+    title: "Round-the-Clock Academic Help", 
+    description: "Aapke sawal kabhi so nahi sakte, aur hum bhi nahi – Get instant solutions whenever a doubt arises." 
+  },
+  { 
+    icon: Sparkles, 
+    title: "Always-On Support System", 
+    description: "Aap taiyaar, hum taiyaar – Be it midnight revisions or early morning practice, mentors are just a click away." 
+  },
+  { 
+    icon: CheckCircle2, 
+    title: "Doubt-Free Learning Guarantee", 
+    description: "Jab bhi aapko zarurat ho, hum wahi hain – Ensuring no student is left stuck or confused at any time." 
+  },
+  { 
+    icon: Award, 
+    title: "Exclusive Mentorship Program", 
+    description: "Personal guidance by mentors who are serving and retired IAS, IPS, and other civil servants." 
+  },
+  { 
+    icon: TrendingUp, 
+    title: "Monthly Progress Tracking", 
+    description: "Detailed reports highlighting your strengths, areas of improvement, and growth." 
+  },
+  { 
+    icon: FileText, 
+    title: "Personalized Teacher Feedback", 
+    description: "Regular feedback from faculty for every student to ensure individual attention." 
+  },
+  { 
+    icon: Library, 
+    title: "Conceptual Mastery of Syllabus", 
+    description: "In-depth coverage of the entire syllabus with focus on clarity and understanding." 
+  },
+  { 
+    icon: PenSquare, 
+    title: "Mains-Oriented Answer Writing", 
+    description: "Practice-based approach with answer evaluation by experts." 
+  },
+  { 
+    icon: ClipboardList, 
+    title: "Structured Test Series", 
+    description: "Topic-wise and subject-wise tests based on class notes, standard books, and PYQs." 
+  },
+  { 
+    icon: BookCopy, 
+    title: "Dedicated Digital Library", 
+    description: "24/7 access to e-books, journals, and reference material." 
+  },
+  { 
+    icon: FileText, 
+    title: "Model Answers for All PYQs", 
+    description: "High-quality model solutions for effective exam preparation." 
+  },
+  { 
+    icon: MessageSquare, 
+    title: "Expert PYQ Discussion Sessions", 
+    description: "Detailed analysis and discussion of previous year papers by subject experts." 
+  },
+  { 
+    icon: Target, 
+    title: "Motivational Sessions", 
+    description: "Interaction with working civil servants to stay inspired and focused." 
+  },
+  { 
+    icon: Mic, 
+    title: "Podcasts & Webinars", 
+    description: "Learn from the real-life journey of IAS, IPS, and toppers through engaging content." 
+  },
+  { 
+    icon: Users, 
+    title: "Parent-Teacher Meetings", 
+    description: "Regular updates to parents about student's progress and performance." 
+  },
+  { 
+    icon: BarChart3, 
+    title: "Performance Analytics Dashboard", 
+    description: "AI-driven analytics to measure accuracy, speed, and preparation level." 
+  },
+];
+
+const containerVariants = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.4, ease: "easeOut", when: "beforeChildren", staggerChildren: 0.1 },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } },
+};
+
+const iconVariants = {
+  rest: { scale: 1, opacity: 1 },
+  hover: { scale: 1.2, rotate: 5, transition: { duration: 0.15, type: "spring" } },
+};
 
 const WhyJoinUs = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-  // Animation variants for the section container - Made faster
-  const containerVariants = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.4, // Reduced from 0.8
-        ease: "easeOut",
-        when: "beforeChildren",
-        staggerChildren: 0.1, // Reduced from 0.2
-      },
-    },
-  };
-
-  // Animation variants for each point - Made faster
-  const itemVariants = {
-    hidden: { opacity: 0, x: -50 },
-    visible: {
-      opacity: 1,
-      x: 0,
-      transition: {
-        duration: 0.3, // Reduced from 0.6
-        ease: "easeOut",
-        type: "spring",
-        stiffness: 150, // Increased from 100
-      },
-    },
-  };
-
-  // Animation variants for letters in the heading - Made faster
-  const letterVariants = {
-    hidden: { opacity: 0, y: 30, rotate: -10 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotate: 0,
-      transition: { duration: 0.2, ease: "easeOut", type: "spring", damping: 20 }, // Reduced duration from 0.4, increased damping
-    },
-  };
-
-  // Animation for icons with bounce effect - Made faster
-  const iconVariants = {
-    rest: { scale: 1, opacity: 1 },
-    hover: {
-      scale: 1.2,
-      rotate: 5,
-      transition: { duration: 0.15, type: "spring" }, // Reduced from 0.3
-    },
-    pulse: {
-      scale: [1, 1.15, 1],
-      opacity: [1, 0.85, 1],
-      transition: { repeat: Infinity, duration: 1.5, ease: "easeInOut" }, // Reduced from 2
-    },
-  };
-
-  // Background animation - Made faster
-  const backgroundVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { duration: 0.8, ease: "easeOut" }, // Reduced from 1.5
-    },
-  };
-
-  // Split heading text for animation
-  const headingText = "Why Join Us";
-  const headingWords = headingText.split(" ");
-  const joinUsIndex = headingWords.indexOf("Join");
-
-  const points = [
-    {
-      icon: "👨‍🏫",
-      title: "Best Teachers",
-      description: "Top-tier faculty with exceptional expertise in civil services preparation",
-    },
-    {
-      icon: "👥",
-      title: "Exclusive Mentorship Ratio",
-      description: "Every 25 students get 1 dedicated mentor for personalized attention",
-    },
-    {
-      icon: "🏅",
-      title: "Current IAS/IPS Mentors",
-      description: "Learn directly from serving IAS and IPS officers as your mentors",
-    },
-    {
-      icon: "🕐",
-      title: "24/7 Live Doubt Sessions",
-      description: "Round-the-clock live doubt clearing sessions for uninterrupted learning",
-    },
-    {
-      icon: "🤖",
-      title: "Live Chatbot Support",
-      description: "Instant AI-powered assistance for quick queries and course navigation",
-    },
-    {
-      icon: "⚡",
-      title: "Under 1 Hour Doubt Resolution",
-      description: "Guaranteed doubt solving within 1 hour with comprehensive video explanations",
-    },
-    {
-      icon: "📱",
-      title: "Interactive Learning Platform",
-      description: "Modern digital platform with seamless user experience and mobile accessibility",
-    },
-    {
-      icon: "📊",
-      title: "Performance Analytics",
-      description: "Detailed progress tracking and performance analysis to optimize your preparation",
-    },
-  ];
-
   return (
     <motion.section
       ref={ref}
-      className="w-full bg-[#111826] py-12 px-6 md:px-16 text-white"
-      variants={backgroundVariants}
+      className="w-full bg-gradient-to-b from-[#9d9d9d] to-[#bdbdbd] py-16 px-6 md:px-16 text-white"
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
+      variants={containerVariants}
     >
-      <motion.div
-        className="max-w-7xl mx-auto"
-        variants={containerVariants}
-      >
+      <div className="max-w-7xl mx-auto">
         {/* Heading */}
-        <motion.h2
-          className="text-3xl md:text-4xl font-bold mb-6 text-center"
+        {/* <motion.h2
+          className="text-4xl md:text-5xl font-bold mb-12 text-center text-slate-100"
           variants={itemVariants}
         >
-          {headingWords.map((word, wordIndex) => (
-            <span key={wordIndex} className="inline-block">
-              {word.split("").map((letter, letterIndex) => (
-                <motion.span
-                  key={`${wordIndex}-${letterIndex}`}
-                  variants={letterVariants}
-                  className={
-                    wordIndex >= joinUsIndex
-                      ? "bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent"
-                      : ""
-                  }
-                >
-                  {letter}
-                </motion.span>
-              ))}
-              {wordIndex < headingWords.length - 1 && " "}
-            </span>
+          Why Join Us
+        </motion.h2> */}
+        {/* Heading */}
+
+<h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-white">
+  <span>Why </span>
+  <span
+    className="bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text text-transparent"
+    style={{ textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)" }}
+  >
+    Join Us?
+  </span>
+</h2>
+
+
+        {/* Responsive Grid: 2x2 on mobile, 3 on desktop */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {points.map((point, index) => (
+            <motion.div
+              key={index}
+              className="flex items-start gap-4 bg-[#8a8a8a]/80 p-6 rounded-xl border border-neutral-700 shadow-md hover:shadow-lg hover:border-[var(--brand-accent)] transition-all duration-300"
+              variants={itemVariants}
+              whileHover={{ scale: 1.03 }}
+            >
+              <motion.div
+                className="w-14 h-14 rounded-lg bg-[#2d2d2d] flex items-center justify-center text-[var(--brand-accent)] flex-shrink-0"
+                variants={iconVariants}
+                initial="rest"
+                whileHover="hover"
+              >
+                <point.icon size={26} />
+              </motion.div>
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-2">{point.title}</h3>
+                <p className="text-slate-300 text-sm">{point.description}</p>
+              </div>
+            </motion.div>
           ))}
-        </motion.h2>
-        <motion.p
-          className="text-gray-300 leading-relaxed text-base md:text-lg text-center mb-10 max-w-3xl mx-auto"
-          variants={itemVariants}
-        >
-          We combine modern online learning with Bihar's educational excellence tradition, providing you with the perfect blend of innovative teaching methods and time-tested academic values to ensure your success in civil services.
-        </motion.p>
-
-        <div className="flex flex-col md:flex-row gap-10">
-          {/* Left Content - 4 Points */}
-          <motion.div className="flex-1 space-y-6" variants={itemVariants}>
-            {points.slice(0, 4).map((point, index) => (
-              <motion.div
-                key={index}
-                className="flex items-start space-x-4 bg-gray-800/50 p-4 rounded-lg hover:bg-gray-800/80 transition-all duration-300"
-                variants={itemVariants}
-                whileHover={{
-                  scale: 1.03,
-                  boxShadow: "0 8px 16px rgba(255, 69, 0, 0.2)",
-                  transition: { type: "spring", stiffness: 300 }, // Increased stiffness for faster hover
-                }}
-              >
-                <motion.div
-                  className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center flex-shrink-0"
-                  variants={iconVariants}
-                  initial="rest"
-                  animate="pulse"
-                  whileHover="hover"
-                >
-                  <span className="text-white font-bold text-lg">{point.icon}</span>
-                </motion.div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{point.title}</h3>
-                  <p className="text-gray-300 text-sm">{point.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Right Content - 4 Points */}
-          <motion.div className="flex-1 space-y-6" variants={itemVariants}>
-            {points.slice(4).map((point, index) => (
-              <motion.div
-                key={index}
-                className="flex items-start space-x-4 bg-gray-800/50 p-4 rounded-lg hover:bg-gray-800/80 transition-all duration-300"
-                variants={itemVariants}
-                whileHover={{
-                  scale: 1.03,
-                  boxShadow: "0 8px 16px rgba(255, 69, 0, 0.2)",
-                  transition: { type: "spring", stiffness: 300 }, // Increased stiffness for faster hover
-                }}
-              >
-                <motion.div
-                  className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center flex-shrink-0"
-                  variants={iconVariants}
-                  initial="rest"
-                  animate="pulse"
-                  whileHover="hover"
-                >
-                  <span className="text-white font-bold text-lg">{point.icon}</span>
-                </motion.div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">{point.title}</h3>
-                  <p className="text-gray-300 text-sm">{point.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
-      </motion.div>
+      </div>
     </motion.section>
   );
 };

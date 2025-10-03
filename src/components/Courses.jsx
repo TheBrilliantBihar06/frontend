@@ -35,7 +35,7 @@ const CourseCard = ({ title, description, features, comingSoon }) => {
   return (
     <div className="bg-[#161a23] rounded-xl shadow-lg overflow-hidden border border-gray-800 hover:shadow-2xl transform hover:-translate-y-1 transition-all duration-300 relative w-full max-w-md">
       {/* Image Placeholder with Gradient Overlay */}
-      <div className="h-48 bg-gradient-to-r from-blue-600 to-indigo-600 flex items-center justify-center relative">
+      <div className="h-48 bg-gradient-to-r bg-[#4a4a4a] flex items-center justify-center relative">
         <span className="text-white text-lg font-semibold opacity-80">
           {title}
         </span>
@@ -87,12 +87,17 @@ const CourseCard = ({ title, description, features, comingSoon }) => {
 
 export default function CoursesSection() {
   return (
-    <section className="bg-gradient-to-b from-gray-800 to-gray-900 text-white py-16 px-6 md:px-16">
+   <section className="relative bg-gradient-to-b from-[#7d7d7d]  to-[#9d9d9d] c text-white py-16 px-6 md:px-16">
       <div className="max-w-7xl mx-auto">
         {/* Heading */}
-        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-blue-500">
-          Explore Our Premium Courses
-        </h2>
+        <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-white">
+  Explore Our <span
+  className="bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text text-transparent"
+  style={{ textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)" }}
+>
+  Premium Courses
+</span>
+</h2>
 
         {/* Courses Flex Container */}
         <div className="flex flex-wrap justify-center gap-8">

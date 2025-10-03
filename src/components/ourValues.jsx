@@ -1,5 +1,16 @@
+
 import React, { useRef } from "react";
 import { motion, useInView } from "framer-motion";
+import {
+  Users,
+  Scale,
+  Award,
+  Search,
+  TrendingUp,
+  Shield,
+  ArrowRight,
+  Phone,
+} from "lucide-react";
 
 const OurValues = () => {
   const ref = useRef(null);
@@ -8,124 +19,84 @@ const OurValues = () => {
   const values = [
     {
       title: "Inclusiveness",
-      text: "At Brilient Bihar, we believe every UPSC aspirant deserves equal opportunity to learn and succeed. Our inclusive environment supports students from diverse backgrounds, ensuring personalized guidance, accessible resources, and a welcoming space where dedication and talent thrive together.",
-      icon: "🤝",
+      text: "Every UPSC aspirant deserves equal opportunity. We foster a supportive environment where students from diverse backgrounds receive personalized guidance and resources.",
+      icon: <Users className="w-10 h-10 text-blue-400" />,
     },
     {
       title: "Integrity",
-      text: "At Brilient Bihar, integrity is the foundation of our teaching and mentoring. We are committed to honesty, transparency, and ethical guidance, ensuring every UPSC aspirant receives genuine support, fair practices, and a trustworthy path to achieve their civil services dream.",
-      icon: "⚖️",
+      text: "Honesty and transparency are at the heart of our mentoring. We ensure fair practices and genuine guidance for every aspirant’s journey.",
+      icon: <Scale className="w-10 h-10 text-green-400" />,
     },
     {
       title: "Excellence",
-      text: "Brilient Bihar is committed to excellence in UPSC coaching through quality teaching, innovative strategies, and personalized mentorship. We strive to set the highest standards of learning, helping aspirants achieve outstanding results and shape successful careers in civil services.",
-      icon: "🏆",
+      text: "We set the highest standards through innovative teaching and mentorship, empowering aspirants to achieve exceptional results.",
+      icon: <Award className="w-10 h-10 text-yellow-400" />,
     },
     {
       title: "Freedom of Inquiry",
-      text: "At Brilient Bihar, we encourage freedom of inquiry by promoting curiosity, open discussion, and independent thinking. Our students are empowered to ask questions, explore diverse perspectives, and develop critical insights essential for excelling in the UPSC examination and beyond.",
-      icon: "🔍",
+      text: "Curiosity and open dialogue are encouraged. We empower students to ask questions, explore perspectives, and sharpen critical thinking.",
+      icon: <Search className="w-10 h-10 text-purple-400" />,
     },
     {
       title: "Growth Mindset",
-      text: "Brilient Bihar fosters a growth mindset by motivating aspirants to embrace challenges, learn from mistakes, and consistently improve. We nurture resilience, adaptability, and confidence, ensuring every student develops the right attitude to excel in UPSC and achieve long-term success.",
-      icon: "📈",
+      text: "Resilience and adaptability drive success. We motivate aspirants to embrace challenges, learn from mistakes, and keep improving.",
+      icon: <TrendingUp className="w-10 h-10 text-pink-400" />,
     },
     {
       title: "Courage",
-      text: "At Brilient Bihar, we instill courage in UPSC aspirants to overcome challenges, face uncertainty with confidence, and pursue their goals fearlessly. With the right guidance and determination, students develop the strength to succeed against all odds.",
-      icon: "💪",
+      text: "Civil services prep requires courage. We instill confidence to face challenges head-on and achieve goals with determination.",
+      icon: <Shield className="w-10 h-10 text-red-400" />,
     },
   ];
 
-  // Animation variants - Made faster
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1, // Reduced from 0.2
-        delayChildren: 0.1,   // Reduced from 0.3
-      },
+      transition: { staggerChildren: 0.15, delayChildren: 0.1 },
     },
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1,
-      transition: {
-        type: "spring",
-        stiffness: 150,  // Increased from 100
-        damping: 12,     // Reduced from 15
-        duration: 0.3,   // Reduced from 0.6
-      },
+      transition: { type: "spring", stiffness: 120, damping: 15 },
     },
   };
-
-  const letterVariants = {
-    hidden: { opacity: 0, y: 20, rotate: -5 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      rotate: 0,
-      transition: { duration: 0.2, ease: "easeOut" }, // Reduced from 0.4
-    },
-  };
-
-  const ctaVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { type: "spring", stiffness: 150, damping: 8 }, // Increased stiffness, reduced damping
-    },
-    pulse: {
-      scale: [1, 1.05, 1],
-      transition: { repeat: Infinity, duration: 1.5, ease: "easeInOut" }, // Reduced from 2
-    },
-  };
-
-  // Split heading for animation
-  const headingText = "Our Values";
-  const headingLetters = headingText.split("");
 
   return (
     <motion.section
       ref={ref}
-      className="w-full bg-gradient-to-b from-[#0a1120] to-[#1a2a44] py-20 px-6 md:px-16 text-white relative overflow-hidden"
+      className="w-full bg-gradient-to-b from-[#bdbdbd] to-[#dddddd] py-20 px-6 md:px-16 text-white relative overflow-hidden"
       variants={containerVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
     >
       {/* Background decoration */}
       <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-blue-600 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-600 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-0 w-80 h-80 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-purple-600 rounded-full blur-3xl"></div>
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header Section */}
-        <motion.div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-6">
-            {headingLetters.map((letter, index) => (
-              <motion.span
-                key={index}
-                variants={letterVariants}
-                className="bg-gradient-to-r from-blue-300 via-purple-300 to-pink-300 bg-clip-text text-transparent"
-              >
-                {letter}
-              </motion.span>
-            ))}
-          </h2>
-          <motion.p
-            className="text-gray-300 text-lg max-w-3xl mx-auto leading-relaxed"
-            variants={cardVariants}
-          >
-            These core principles guide everything we do at Brilient Bihar, shaping our approach to UPSC coaching and student success.
-          </motion.p>
+        {/* Header */}
+        <motion.div className="text-center mb-16" variants={cardVariants}>
+         <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-white">
+  <span>Our </span>
+  <span
+    className="bg-gradient-to-r from-[#1e3a8a] to-[#1e40af] bg-clip-text text-transparent"
+    style={{ textShadow: "1px 1px 3px rgba(0, 0, 0, 0.5)" }}
+  >
+    Values
+  </span>
+</h2>
+  
+          <p className="text-gray-700 text-lg max-w-3xl mx-auto leading-relaxed">
+            These principles shape everything we do at Brilliant Bihar, guiding
+            our approach to UPSC coaching and mentoring excellence.
+          </p>
         </motion.div>
 
         {/* Values Grid */}
@@ -133,46 +104,53 @@ const OurValues = () => {
           {values.map((item, index) => (
             <motion.div
               key={index}
-              className="relative bg-gray-800/20 backdrop-blur-lg border border-gray-700/30 rounded-xl p-6 shadow-lg hover:shadow-xl hover:border-blue-500/50 transition-all duration-300 group"
+              className="relative bg-[#9a9a9a] backdrop-blur-md border border-gray-300 rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 group"
               variants={cardVariants}
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 20px rgba(59, 130, 246, 0.2)" }}
+              whileHover={{ scale: 1.03 }}
             >
-              <motion.div
-                className="text-5xl mb-6"
-                variants={cardVariants}
-                whileHover={{ rotate: 5, scale: 1.1 }}
-              >
-                {item.icon}
-              </motion.div>
-              <h3 className="text-xl font-bold mb-3 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent group-hover:from-blue-300 group-hover:to-purple-300">
-                {item.title}
-              </h3>
-              <p className="text-gray-300 text-sm leading-relaxed">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="p-3 rounded-lg bg-[#4a4a4a]/90 shadow-md">
+                  {item.icon}
+                </div>
+                <h3 className="text-lg font-bold text-white">
+                  {item.title}
+                </h3>
+              </div>
+              <p className="text-gray-800 text-sm leading-relaxed">
                 {item.text}
               </p>
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </motion.div>
           ))}
         </div>
 
-        {/* Bottom CTA Section */}
+        {/* CTA Section */}
         <motion.div
-          className="text-center mt-16"
-          variants={ctaVariants}
+          className="mt-20"
+          variants={cardVariants}
           initial="hidden"
-          animate={isInView ? "visible" : "hidden"}
-          whileHover="pulse"
+          whileInView="visible"
+          viewport={{ once: true }}
         >
-          <a
-            href="/courses"
-            className="inline-flex items-center gap-4 bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl py-4 px-8 shadow-lg hover:shadow-2xl transition-all duration-300 text-white hover:from-blue-600 hover:to-purple-600"
-          >
-            <div className="text-2xl">🎯</div>
-            <div>
-              <h3 className="text-lg font-bold mb-1">Ready to Begin Your UPSC Journey?</h3>
-              <p className="text-blue-100 text-sm">Join thousands of successful aspirants who chose Brilient Bihar</p>
+          <div className="bg-gradient-to-r from-[#7a7a7a] via-[#5a5a5a] to-[#7a7a7a] rounded-xl p-10 text-center border border-gray-600 shadow-xl">
+            <h3 className="text-2xl font-bold text-white">
+              Begin Your Journey to Success Today
+            </h3>
+            <p className="text-slate-300 mt-3 max-w-2xl mx-auto">
+              Join thousands of aspirants who trust our expert faculty and
+              innovative learning platform.
+            </p>
+            <div className="mt-6 flex flex-wrap justify-center gap-4">
+              <a
+                href="/courses"
+                className="inline-flex items-center gap-2 bg-[#f59e0b] text-black font-semibold px-6 py-3 rounded-md hover:brightness-110 transition"
+              >
+                Explore Courses <ArrowRight className="w-4 h-4" />
+              </a>
+              <a className="inline-flex items-center gap-2 border border-white/20 px-6 py-3 rounded-md hover:bg-white/10 transition text-white">
+                Request Callback <Phone className="w-4 h-4" />
+              </a>
             </div>
-          </a>
+          </div>
         </motion.div>
       </div>
     </motion.section>

@@ -1,227 +1,198 @@
-import React, { useState } from 'react';
-import { Calendar, Clock, MapPin, Users, ArrowRight, Filter } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-export default function Events() {
-  const [activeFilter, setActiveFilter] = useState('all');
+// Data for the "What to Expect" section
+const eventExamples = [
+  { 
+    id: 1, 
+    title: "UPSC Prelims Mock Test Series",
+    description: "Simulate real exam conditions with our full-length tests and get detailed performance analysis." 
+  },
+  { 
+    id: 2, 
+    title: "BPSC Mains Strategy Workshops",
+    description: "Learn effective answer writing and time management from toppers and subject matter experts."
+  },
+  { 
+    id: 3, 
+    title: "Interactive Interview Guidance Seminars",
+    description: "Build confidence and master the art of handling personality tests with ex-panel members."
+  },
+  { 
+    id: 4, 
+    title: "Current Affairs Masterclasses",
+    description: "Stay updated with comprehensive coverage of national, international, and Bihar-specific news."
+  },
+];
 
-  const events = [
-    {
-      id: 1,
-      title: "UPSC Prelims Mock Test Series",
-      category: "upsc",
-      date: "2025-10-05",
-      time: "10:00 AM - 1:00 PM",
-      location: "Online",
-      seats: "500 seats available",
-      description: "Comprehensive mock test series covering all subjects with detailed analysis and performance tracking.",
-      image: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80"
-    },
-    {
-      id: 2,
-      title: "BPSC Mains Strategy Workshop",
-      category: "bpsc",
-      date: "2025-10-12",
-      time: "2:00 PM - 5:00 PM",
-      location: "Hybrid (Online & Offline)",
-      seats: "200 seats available",
-      description: "Expert-led workshop on answer writing techniques and exam strategies for BPSC Mains examination.",
-      image: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80"
-    },
-    {
-      id: 3,
-      title: "UPSC Interview Guidance Seminar",
-      category: "upsc",
-      date: "2025-10-18",
-      time: "11:00 AM - 3:00 PM",
-      location: "Delhi Centre",
-      seats: "100 seats available",
-      description: "Interactive session with former UPSC board members on personality test preparation and interview skills.",
-      image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&q=80"
-    },
-    {
-      id: 4,
-      title: "BPSC Current Affairs Masterclass",
-      category: "bpsc",
-      date: "2025-10-25",
-      time: "4:00 PM - 6:00 PM",
-      location: "Online",
-      seats: "Unlimited",
-      description: "Monthly current affairs analysis with focus on Bihar-specific topics and national importance issues.",
-      image: "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80"
-    },
-    {
-      id: 5,
-      title: "UPSC Ethics & Integrity Case Study",
-      category: "upsc",
-      date: "2025-11-02",
-      time: "10:00 AM - 12:00 PM",
-      location: "Online",
-      seats: "300 seats available",
-      description: "Deep dive into ethics paper with real-world case studies and answer writing practice sessions.",
-      image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80"
-    },
-    {
-      id: 6,
-      title: "BPSC Foundation Batch Orientation",
-      category: "bpsc",
-      date: "2025-11-08",
-      time: "3:00 PM - 5:00 PM",
-      location: "Patna Centre",
-      seats: "150 seats available",
-      description: "Orientation program for new aspirants covering syllabus, study plan, and resource management.",
-      image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80"
+// Motion Variants
+const fadeUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+};
+const stagger = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1, delayChildren: 0.2 } }
+};
+
+// --- REFINED Color Palette ---
+const themeVars = {
+  '--brand-ink': '#5d5d5d',      // Main background
+  '--card-bg': '#4a4a4a',        // Primary card background
+  '--subtle-bg': '#525252',      // Lighter card background for blending
+  '--border-color': '#6b7280',   // Subtle border color
+  '--brand-light': '#f1f5f9',    // Main text color
+  '--brand-accent': '#3b82f6',   // Primary Accent (Blue)
+  '--brand-deep': '#60a5fa',     // Secondary Accent (Lighter Blue)
+};
+
+// --- Countdown Timer Logic ---
+const Countdown = () => {
+  // Target date: 6 Oct 2025, 6:00 PM IST
+  const targetDate = new Date('2025-10-06T18:00:00+05:30');
+
+  const calculateTimeLeft = () => {
+    const difference = +targetDate - +new Date();
+    let timeLeft = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
     }
-  ];
+    return timeLeft;
+  };
 
-  const filteredEvents = activeFilter === 'all' 
-    ? events 
-    : events.filter(event => event.category === activeFilter);
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
   return (
-    <>
+    <div className="flex justify-center gap-6 md:gap-12 my-8">
+      {Object.keys(timeLeft).length > 0 ? (
+        Object.entries(timeLeft).map(([interval, value]) => (
+          <div key={interval} className="flex flex-col items-center">
+            <span className="text-5xl md:text-6xl font-bold text-white tracking-wider font-mono">
+              {String(value).padStart(2, '0')}
+            </span>
+            <span className="text-xs uppercase text-slate-400 tracking-widest mt-1">
+              {interval}
+            </span>
+          </div>
+        ))
+      ) : (
+        <span className="text-2xl font-bold text-white">Event has started!</span>
+      )}
+    </div>
+  );
+};
+
+export default function Events() {
+  return (
+    <div style={themeVars} className="min-h-screen bg-[var(--brand-ink)] text-[var(--brand-light)] font-sans flex flex-col">
       <Navbar />
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900 text-gray-100">
-        {/* Header Section */}
-        <div className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-r from-gray-800/50 to-black/50"></div>
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-gray-100 to-gray-400 bg-clip-text text-transparent">
-              Upcoming Events
-            </h1>
-            <p className="text-xl text-gray-400 max-w-2xl">
-              Join our exclusive workshops, seminars, and mock tests designed to accelerate your civil services preparation journey.
+
+      {/* Background Atmosphere */}
+      <div className="absolute top-0 left-0 w-full h-full bg-grid-gray-400/[0.05] [mask-image:linear-gradient(to_bottom,white_0%,transparent_100%)]"></div>
+      <div className="absolute inset-0 w-full h-full [background-image:radial-gradient(ellipse_at_center,hsl(0_0%_100%_/_0.05),transparent_70%)]"></div>
+
+      <div className="relative z-10 flex flex-col flex-1">
+        
+        {/* Hero Section */}
+        <motion.section
+          className="flex items-center justify-center text-center flex-1 min-h-[50vh] pt-28 pb-24"
+          initial="hidden"
+          animate="visible"
+          variants={stagger}
+        >
+          <div>
+            <motion.h1
+              variants={fadeUp}
+              className="font-serif text-4xl md:text-6xl font-bold text-white mb-6 leading-tight max-w-4xl mx-auto px-4"
+            >
+              Empower Your Preparation with{" "}
+              <span className="text-[var(--brand-accent)]">Expert-Led Events</span>
+            </motion.h1>
+            <motion.p
+              variants={fadeUp}
+              className="text-slate-300 text-lg md:text-xl max-w-2xl mx-auto px-4"
+            >
+              Engage in workshops, seminars, and interactive sessions
+              designed to accelerate your success in UPSC & BPSC exams.
+            </motion.p>
+          </div>
+        </motion.section>
+
+        {/* Main Content */}
+        <main className="container mx-auto px-6 flex-1 pb-24">
+
+          {/* Countdown Section */}
+          <motion.div
+            className="bg-[var(--card-bg)] backdrop-blur-lg border border-[var(--border-color)] rounded-2xl p-10 md:p-14 text-center shadow-lg shadow-black/20"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            variants={fadeUp}
+          >
+            <h2 className="text-sm uppercase font-semibold text-[var(--brand-deep)] tracking-widest mb-3">
+              Countdown to Launch
+            </h2>
+            <p className="text-2xl md:text-3xl font-semibold text-white mb-6">
+              Our Next Event Series Starts Soon
             </p>
-          </div>
-        </div>
-
-        {/* Filter Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex items-center gap-4 flex-wrap">
-            <div className="flex items-center gap-2 text-gray-400">
-              <Filter className="w-5 h-5" />
-              <span className="font-medium">Filter by:</span>
-            </div>
-            <div className="flex gap-3">
-              <button
-                onClick={() => setActiveFilter('all')}
-                className={`px-6 py-2 rounded-full font-medium transition-all ${
-                  activeFilter === 'all'
-                    ? 'bg-gray-100 text-black'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
-              >
-                All Events
-              </button>
-              <button
-                onClick={() => setActiveFilter('upsc')}
-                className={`px-6 py-2 rounded-full font-medium transition-all ${
-                  activeFilter === 'upsc'
-                    ? 'bg-gray-100 text-black'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
-              >
-                UPSC
-              </button>
-              <button
-                onClick={() => setActiveFilter('bpsc')}
-                className={`px-6 py-2 rounded-full font-medium transition-all ${
-                  activeFilter === 'bpsc'
-                    ? 'bg-gray-100 text-black'
-                    : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
-                }`}
-              >
-                BPSC
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Events Grid */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredEvents.map((event) => (
-              <div
-                key={event.id}
-                className="group bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden border border-gray-700 hover:border-gray-500 transition-all duration-300 hover:transform hover:scale-105 hover:shadow-2xl"
-              >
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  <div className="absolute top-4 right-4">
-                    <span className="px-3 py-1 bg-black/70 backdrop-blur-sm rounded-full text-xs font-semibold uppercase tracking-wide">
-                      {event.category}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-3 text-gray-100 group-hover:text-white transition-colors">
-                    {event.title}
-                  </h3>
-                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">
-                    {event.description}
-                  </p>
-
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
-                      <Calendar className="w-4 h-4" />
-                      <span>{new Date(event.date).toLocaleDateString('en-US', { 
-                        weekday: 'long', 
-                        year: 'numeric', 
-                        month: 'long', 
-                        day: 'numeric' 
-                      })}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
-                      <Clock className="w-4 h-4" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
-                      <MapPin className="w-4 h-4" />
-                      <span>{event.location}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-400">
-                      <Users className="w-4 h-4" />
-                      <span>{event.seats}</span>
-                    </div>
-                  </div>
-
-                  <button className="w-full bg-gray-100 text-black font-semibold py-3 px-6 rounded-xl hover:bg-white transition-all duration-300 flex items-center justify-center gap-2 group">
-                    Register Now
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="bg-gradient-to-r from-gray-800 to-black border-y border-gray-700">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
-            <h2 className="text-3xl font-bold mb-4">Don't Miss Out on Future Events</h2>
-            <p className="text-gray-400 mb-8 max-w-2xl mx-auto">
-              Subscribe to our newsletter to get notified about upcoming events, workshops, and exclusive opportunities.
+            <Countdown />
+            <p className="text-slate-400 max-w-xl mx-auto">
+              We’re preparing an insightful lineup of events tailored for your
+              exam journey. Stay tuned for valuable experiences.
             </p>
-            <div className="flex gap-4 max-w-md mx-auto">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="flex-1 px-4 py-3 bg-gray-900 border border-gray-700 rounded-lg focus:outline-none focus:border-gray-500 text-gray-100"
-              />
-              <button className="px-8 py-3 bg-gray-100 text-black font-semibold rounded-lg hover:bg-white transition-colors">
-                Subscribe
-              </button>
+          </motion.div>
+
+          {/* What to Expect Section */}
+          <motion.div
+            className="mt-24"
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={stagger}
+          >
+            <motion.h3
+              variants={fadeUp}
+              className="text-3xl font-bold text-center mb-16"
+            >
+              Our Core Offerings
+            </motion.h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+              {eventExamples.map((event, index) => (
+                <motion.div
+                  variants={fadeUp}
+                  key={event.id}
+                  className="bg-[var(--subtle-bg)] border border-[var(--border-color)] rounded-xl p-6 relative overflow-hidden group transition-all duration-300 hover:border-[var(--brand-accent)]/50 hover:-translate-y-1"
+                >
+                  <span className="absolute top-0 right-0 text-8xl font-bold font-mono text-[var(--border-color)] opacity-20 group-hover:text-[var(--brand-accent)]/20 transition-colors duration-300 -translate-y-1/4 translate-x-1/4">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <div className="relative z-10">
+                    <h4 className="text-xl font-semibold text-slate-100 mb-2">{event.title}</h4>
+                    <p className="text-sm text-slate-400 leading-relaxed">{event.description}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </main>
       </div>
+
       <Footer />
-    </>
+    </div>
   );
 }

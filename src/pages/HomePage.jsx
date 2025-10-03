@@ -6,18 +6,18 @@ import CoursesSection from "../components/Courses";
 import TeachersSection from "../components/Teachers";
 import WhyJoinUs from "../components/whyJoinUs";
 import OurValues from "../components/ourValues";
-import Chatbot from "../components/Chatbot";
+import HomeAbout from "../components/HomeAbout";
 export default function HomePage() {
   return (
     <>
       <Navbar />
-      <Chatbot/>
       <HeroSection />
-       <TeachersSection />
+      <HomeAbout />
+      <TeachersSection />
       <CoursesSection />
       <WhyJoinUs />
       <OurValues />
       <Footer />
-          </>
-  );
+          </>
+  );
 }

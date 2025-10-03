@@ -8,17 +8,17 @@ import ContactPage from "./pages/Contactus";
 import AboutPage from "./pages/About";
 import LoginPage from "./pages/Login";
 import SignupPage from "./pages/Signup";
-import ForgotPasswordPage from "./pages/Forgot";
 import UpcomingCourses from "./pages/coursePage";
 import EventSection from "./pages/Events";
-import ProfileSection from "./pages/profile";
 import Form from "./pages/Registrationfrom";
 import Faculty from "./pages/Faculty";
+import TermsAndConditions from "./pages/TermsAndConditions";
 
+import AdmitCardDashboard from "./pages/AdmitCardDashboard";
 // Dashboards
 import AdminDashboard from "./Dashboard/AdminDashboard/AdminDashboard";
 import TeacherDashboard from "./Dashboard/TeacherDashboard/TeacherDashboard";
-import StudentDashboard from "./Dashboard/StudentDashboard/StudentDashboard";
+// import StudentDashboard from "./Dashboard/StudentDashboard/StudentDashboard";
 
 // Protected Route
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -37,12 +37,13 @@ function App() {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
-        <Route path="/forgot" element={<ForgotPasswordPage />} />
         <Route path="/courses" element={<UpcomingCourses />} />
         <Route path="/events" element={<EventSection />} />
-        <Route path="/profile" element={<ProfileSection />} />
         <Route path="/form" element={<Form />} />
         <Route path ="/teachers" element={<Faculty />} />
+        <Route path="/terms-conditions" element={<TermsAndConditions/>} />
+
+
 
         {/* Protected Dashboard Routes */}
         <Route
@@ -54,6 +55,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route 
+          path="/admin/admit-cards" 
+          element={
+           <ProtectedRoute requiredRole="admin">
+              <AdmitCardDashboard />
+</ProtectedRoute>
+            // </AdminProtectedRoute>
+          } 
+          />
         <Route 
           path="/add-course" 
           element={
@@ -95,12 +105,7 @@ function App() {
         />
 
         <Route
-          path="/student-dashboard"
-          element={
-            <ProtectedRoute requiredRole="student">
-              <StudentDashboard />
-            </ProtectedRoute>
-          }
+         
         />
       </Routes>
     </Router>
