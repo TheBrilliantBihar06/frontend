@@ -58,7 +58,7 @@ const AddCourse = () => {
   const fetchCourses = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/courses', {
+      const res = await fetch('https://backend-production-fe57.up.railway.app/api/courses', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -120,7 +120,7 @@ const AddCourse = () => {
         courseData.append('image', imageFile);
       }
 
-      const res = await fetch('http://localhost:5000/api/courses', {
+      const res = await fetch('https://backend-production-fe57.up.railway.app/api/courses', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -187,7 +187,7 @@ const AddCourse = () => {
         courseData.append('image', imageFile);
       }
 
-      const res = await fetch(`http://localhost:5000/api/courses/${editingCourse._id}`, {
+      const res = await fetch(`https://backend-production-fe57.up.railway.app/api/courses/${editingCourse._id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -242,7 +242,7 @@ const AddCourse = () => {
     if (window.confirm('Are you sure you want to delete this course?')) {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/courses/${courseId}`, {
+        const res = await fetch(`https://backend-production-fe57.up.railway.app/api/courses/${courseId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,

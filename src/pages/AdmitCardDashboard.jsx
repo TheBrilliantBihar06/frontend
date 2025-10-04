@@ -46,8 +46,8 @@ const AdmitCardDashboard = () => {
       setLoading(true);
       setError('');
       const token = localStorage.getItem('token') || 'demo-token';
-      
-      const response = await fetch('http://localhost:5000/api/admitcard/applications', {
+
+      const response = await fetch('https://backend-production-fe57.up.railway.app/api/admitcard/applications', {
         headers: { Authorization: `Bearer ${token}` }
       });
       
@@ -81,8 +81,8 @@ const AdmitCardDashboard = () => {
     setGeneratingId(applicationId);
     try {
       const token = localStorage.getItem('token') || 'demo-token';
-      
-      const response = await fetch(`http://localhost:5000/api/admitcard/generate/${applicationId}`, {
+
+      const response = await fetch(`https://backend-production-fe57.up.railway.app/api/admitcard/generate/${applicationId}`, {
         method: 'POST',
         headers: { 
           Authorization: `Bearer ${token}`,
@@ -121,8 +121,8 @@ const AdmitCardDashboard = () => {
     try {
       const token = localStorage.getItem('token') || 'demo-token';
       const applicationIds = pendingApps.map(app => app.applicationId);
-      
-      const response = await fetch('http://localhost:5000/api/admitcard/generate-bulk', {
+
+      const response = await fetch('https://backend-production-fe57.up.railway.app/api/admitcard/generate-bulk', {
         method: 'POST',
         headers: { 
           Authorization: `Bearer ${token}`,
@@ -170,7 +170,7 @@ const AdmitCardDashboard = () => {
       // Process all applications concurrently for faster execution
       const promises = apps.map(async (app, index) => {
         try {
-          const response = await fetch(`http://localhost:5000/api/admitcard/generate/${app.applicationId}`, {
+          const response = await fetch(`https://backend-production-fe57.up.railway.app/api/admitcard/generate/${app.applicationId}`, {
             method: 'POST',
             headers: { 
               Authorization: `Bearer ${token}`,
@@ -233,7 +233,7 @@ const AdmitCardDashboard = () => {
       for (let i = 0; i < pendingApps.length; i++) {
         const app = pendingApps[i];
         try {
-          const response = await fetch(`http://localhost:5000/api/admitcard/generate/${app.applicationId}`, {
+          const response = await fetch(`https://backend-production-fe57.up.railway.app/api/admitcard/generate/${app.applicationId}`, {
             method: 'POST',
             headers: { 
               Authorization: `Bearer ${token}`,

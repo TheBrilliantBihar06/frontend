@@ -57,7 +57,7 @@ const ManageUser = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/auth/users', {
+      const res = await fetch('https://backend-production-fe57.up.railway.app/api/auth/users', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -116,7 +116,7 @@ const ManageUser = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/auth/users/${editingUser._id}`, {
+      const res = await fetch(`https://backend-production-fe57.up.railway.app/api/auth/users/${editingUser._id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -164,7 +164,7 @@ const ManageUser = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch(`http://localhost:5000/api/auth/users/${passwordUser._id}/password`, {
+      const res = await fetch(`https://backend-production-fe57.up.railway.app/api/auth/users/${passwordUser._id}/password`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -194,7 +194,7 @@ const ManageUser = () => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/auth/users/${userId}`, {
+        const res = await fetch(`https://backend-production-fe57.up.railway.app/api/auth/users/${userId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,

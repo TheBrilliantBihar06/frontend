@@ -47,7 +47,7 @@ const AdminDashboard = () => {
   const fetchUsers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/auth/users', {
+      const res = await fetch('https://backend-production-fe57.up.railway.app/api/auth/users', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -84,7 +84,7 @@ const AdminDashboard = () => {
     
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/auth/register', {
+      const res = await fetch('https://backend-production-fe57.up.railway.app/api/auth/register', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -119,7 +119,7 @@ const AdminDashboard = () => {
     if (window.confirm('Are you sure you want to delete this user?')) {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/auth/users/${userId}`, {
+        const res = await fetch(`https://backend-production-fe57.up.railway.app/api/auth/users/${userId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,

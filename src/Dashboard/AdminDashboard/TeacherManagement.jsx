@@ -53,7 +53,7 @@ const TeacherManagement = () => {
   const fetchTeachers = async () => {
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/teachers', {
+      const res = await fetch('https://backend-production-fe57.up.railway.app/api/teachers', {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -113,7 +113,7 @@ const TeacherManagement = () => {
         teacherData.append('image', imageFile);
       }
       
-      const res = await fetch('http://localhost:5000/api/teachers', {
+      const res = await fetch('https://backend-production-fe57.up.railway.app/api/teachers', {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -152,7 +152,7 @@ const TeacherManagement = () => {
       designation: teacher.designation,
       description: teacher.description,
     });
-    setImagePreview(teacher.image ? `http://localhost:5000/${teacher.image}` : '');
+    setImagePreview(teacher.image ? `https://backend-production-fe57.up.railway.app/${teacher.image}` : '');
     setShowEditForm(true);
   };
 
@@ -174,7 +174,7 @@ const TeacherManagement = () => {
         teacherData.append('image', imageFile);
       }
       
-      const res = await fetch(`http://localhost:5000/api/teachers/${editingTeacher._id}`, {
+      const res = await fetch(`https://backend-production-fe57.up.railway.app/api/teachers/${editingTeacher._id}`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -225,7 +225,7 @@ const TeacherManagement = () => {
     if (window.confirm('Are you sure you want to delete this teacher?')) {
       try {
         const token = localStorage.getItem('token');
-        const res = await fetch(`http://localhost:5000/api/teachers/${teacherId}`, {
+        const res = await fetch(`https://backend-production-fe57.up.railway.app/api/teachers/${teacherId}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -482,7 +482,7 @@ const TeacherManagement = () => {
                         <div className="relative h-48 bg-gradient-to-br from-blue-100 to-indigo-100">
                           {teacher.image ? (
                             <img 
-                              src={`http://localhost:5000/${teacher.image}`} 
+                              src={`https://backend-production-fe57.up.railway.app/${teacher.image}`} 
                               alt={teacher.name} 
                               className="w-full h-full object-cover"
                             />
